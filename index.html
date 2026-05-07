@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Training Log Recorder</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="date-and-body-box">
+    <!--日付入力-->
+    <div class="date-box">
+      <label for="training-date">日付</label>
+      <input type="date" id="training-date">
+    </div>
+
+    <!--体重入力-->
+    <div class="body-weight-box">
+      <label for="body-weight">体重</label>
+      <input type="number" id="body-weight" step="0.1" value="50.0">
+      <span>kg</span>
+    </div>
+  </div>
+
+  <!--内容選択-->
+  <div class="contents-box">
+  
+    <!--部位選択-->
+    <div class="part-box">
+      <label for="body-part">部位</label>
+      <select id="body-part">
+        <option value="chest" selected>胸</option>
+        <option value="back">背中</option>
+        <option value="shoulders">肩</option>
+        <option value="arms">腕</option>
+        <option value="legs">脚</option>
+        <option value="core">体幹</option>
+      </select>
+    </div>
+
+    <div class="exercise-and-type">
+      
+      <!--種目選択-->
+      <div class="exercise-box">
+        <label for="exercise">種目</label>
+        <select id="exercise"></select>
+      </div>
+
+      <!--タイプ選択-->
+      <div class="exerciseType-box">
+        <label for="exerciseType">タイプ</label>
+        <select id="exerciseType">
+          <option value="weight" selected>ウェイト</option>
+          <option value="assisted_bodyweight">アシスト</option>
+          <option value="bodyweight">自重</option>
+        </select>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!--重量と回数入力-->
+  <div class="sets-box">
+
+    <!--1セット目-->
+    <div class="set1-box">    
+      <!--重量入力-->
+      <div class="set1-weight-box">
+        <label for="set1-weight">1セット目 重量</label>
+        <select id="set1-weight"></select>
+      </div>
+
+      <!--回数入力-->
+      <div class="set1-reps-box">
+        <label for="set1-reps">1セット目 回数</label>
+        <select id="set1-reps"></select>
+      </div>
+    </div>
+
+    <!--2セット目-->
+    <div class="set2-box">    
+      <!--重量入力-->
+      <div class="set2-weight-box">
+        <label for="set2-weight">2セット目 重量</label>
+        <select id="set2-weight"></select>
+      </div>
+
+      <!--回数入力-->
+      <div class="set2-reps-box">
+        <label for="set2-reps">2セット目 回数</label>
+        <select id="set2-reps"></select>
+      </div>
+    </div>
+
+    <!--3セット目-->
+    <div class="set3-box">    
+      <!--重量入力-->
+      <div class="set3-weight-box">
+        <label for="set3-weight">3セット目 重量</label>
+        <select id="set3-weight"></select>
+      </div>
+
+      <!--回数入力-->
+      <div class="set3-reps-box">
+        <label for="set3-reps">3セット目 回数</label>
+        <select id="set3-reps"></select>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="json-box">
+    <!--JSON書き出しボタン-->
+    <button type="button" id="create-json-button">JSONに記録&書き出す</button>
+
+    <!--JSONファイル読み込みボタン-->
+    <button type="button" id="upload-json-button">JSONを読み込む</button>
+
+    <!--JSONファイル選択-->
+    <input type="file" id="json-file-input" accept=".json" hidden>
+
+    <!--JSONファイル保存ボタン-->
+    <button type="button" id="download-json-button">JSONファイルを保存</button>
+  </div>
+
+  <!--JSON表示エリア-->
+  <pre id="json-output"></pre>  
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/record.js"></script>
+</body>
+</html>

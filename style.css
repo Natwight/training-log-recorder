@@ -1,0 +1,108 @@
+:root {
+  /* 基本カラー */
+  --bg-color: #f3fbf6;
+  --card-color: #ffffff;
+  --main-color: #2fbf71;
+  --main-color-dark: #23965a;
+  --sub-color: #dff5e8;
+
+  /* 文字・線 */
+  --text-color: #1f2d25;
+  --muted-text-color: #6b7c70;
+  --border-color: #c8e8d5;
+
+  /* 余白 */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+
+  /* 角丸 */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: sans-serif;
+}
+
+.date-and-body-box,
+.exercise-and-type {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: end;
+}
+
+.date-box,
+.exercise-box {
+  flex: 1;
+}
+
+.body-weight-box {
+  flex: 0 0 auto;
+}
+
+.exerciseType-box {
+  flex: 0 0 6rem;
+}
+
+input,
+select,
+button {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+
+#training-date {
+  font-size: 1.1rem;
+}
+
+#body-weight {
+  width: 5rem;
+  font-size: 1.1rem;
+  text-align: right;
+}
+
+.set1-box,
+.set2-box,
+.set3-box {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.set1-weight-box,
+.set1-reps-box,
+.set2-weight-box,
+.set2-reps-box,
+.set3-weight-box,
+.set3-reps-box {
+  flex: 1;
+}
+
+.json-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+#json-output {
+  overflow-x: auto;
+  white-space: pre;
+  font-size: 0.85rem;
+}
