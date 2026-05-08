@@ -58,13 +58,14 @@ body {
   width: 3.5rem;
   flex-shrink: 0;
   white-space: nowrap;
+  font-size: var(--font-date-group);
 }
 
 /*日付の箱*/
 .date-box {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
+  gap: var(--space-md);
 }
 
 #training-date {
@@ -81,7 +82,7 @@ body {
 .body-weight-box {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
+  gap: var(--space-md);
 }
 
 #body-weight {
@@ -97,7 +98,7 @@ body {
 .contents-box {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-md);
 
   border: var(--main-color-dark) solid 2px;
   border-radius: var(--radius-md);
@@ -108,34 +109,35 @@ body {
   width: 3.5rem;
   flex-shrink: 0;
   white-space: nowrap;
+  font-size: var(--font-part-group);
 }
 
 /*部位の箱*/
 .part-box {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
+  gap: var(--space-md);
 }
 
 /*種目とタイプの箱*/
 .exercise-and-type {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-md);
 }
 
 /*種目の箱*/
 .exercise-box {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
+  gap: var(--space-md);
 }
 
 /*タイプの箱*/
 .exerciseType-box {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
+  gap: var(--space-md);
 }
 
 #body-part, #exercise {
