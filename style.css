@@ -23,7 +23,8 @@
   --radius-lg: 1rem;
 
   /* フォント */
-  --font-rg: 1.2rem;
+  --font-date-group: 1.5rem;
+  --font-part-group: 1.8rem;
 }
 
 * {
@@ -69,7 +70,9 @@ body {
 #training-date {
   flex: 1;
   min-width: 0;
-  font-size: var(--font-rg);
+  font-size: var(--font-date-group);
+  text-align: center;
+  background: #ffffff;
 }
 
 /*体重の箱*/
@@ -81,7 +84,7 @@ body {
 
 #body-weight {
   width: 5rem;
-  font-size: var(--font-rg);
+  font-size: var(--font-date-group);
   text-align: right;
 }
 
@@ -133,10 +136,12 @@ body {
 #body-part, #exercise {
   flex: 1;
   min-width: 0;
+  font-size: var(--font-part-group);
 }
 
 #exerciseType {
   width: 8rem;
+  font-size: var(--font-part-group);
 }
 
 /*
