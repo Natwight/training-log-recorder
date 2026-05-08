@@ -10,12 +10,6 @@ const exerciseTypeInput = document.getElementById("exerciseType");
 //JSON書き出しボタンの<button>の要素をId名で取得
 const createJsonButton = document.getElementById("create-json-button");
 
-//JSONファイル読み込みボタンの<button>の要素をId名で取得
-const uploadJsonButton = document.getElementById("upload-json-button");
-
-//JSONファイル選択の<input>の要素をId名で取得
-const jsonFileInput = document.getElementById("json-file-input");
-
 //JSONファイル保存ボタンの<button>の要素をId名で取得
 const downloadJsonButton = document.getElementById("download-json-button");
 
@@ -94,6 +88,25 @@ function createSetData(setNumber, weightSelect, repsSelect) {
         weight: Number(weightSelect.value),
         reps: Number(repsSelect.value)
     };
+}
+
+
+//JSONファイルの初回読み込み
+function loadDefaultJsonFile() {
+    fetch("training-records.json")
+        .then((response) => {
+            return response.json();
+        })
+        .then((loadedRecords) => {
+            trainingRecords.length = 0;
+
+            loadedRecords.forEach((record) => {
+                trainingRecords.push(record);
+            });
+
+            updateJsonOutput();
+            getRecordsBySelectedExercise();
+        });
 }
 
 
@@ -267,60 +280,5 @@ downloadJsonButton.addEventListener("click", () => {
 });
 
 
-//JSONを読み込むボタンが押されたときの処理
-uploadJsonButton.addEventListener("click", () => {
-    jsonFileInput.click();
-});
-
-
-//JSONファイルが選択されたときの処理
-jsonFileInput.addEventListener("change", () => {
-    
-    //ユーザーが指定したファイルの最初の1つ目(files[0])を取得する
-    const file = jsonFileInput.files[0];
-
-    //ファイルが存在していなければ処理を終える
-    //これがない場合、ユーザーがファイル選択をキャンセルしても処理が続く
-    if (!file) {
-        return;
-    }
-
-    //選ばれたファイル名の拡張子が.jsonであるかを確認する
-    if (!file.name.endsWith(".json")) {
-        alert("JSONファイルを選択してください。");
-        return;
-    }
-
-    //選択したファイルを読むための道具を作る
-    //FileReader - 選ばれたファイルの中身をJavaScriptで読めるようにする
-    const reader = new FileReader();
-
-    //ファイルの読み込み完了時の処理をファイルを読み込む前に先書き
-    reader.addEventListener("load", () => {
-
-        //読み込んだJSON文字列をJavaScriptの配列やオブジェクトに変換する
-        const loadedRecords = JSON.parse(reader.result);
-
-        //配列の中身を空にする
-        trainingRecords.length = 0;
-
-        //空にした配列に読み込んだファイルの配列を並べていく
-        loadedRecords.forEach((record) => {
-            trainingRecords.push(record);
-        });
-
-        //JSON表示エリアを更新する
-        updateJsonOutput();
-
-        //現在選択中の種目の直近3回を表示
-        getRecordsBySelectedExercise();
-    });
-
-    //選択したファイルを文字列として読み込む
-    //readAsText(file) - fileの中身をテキストとして読む
-    //このファイルの中身を文字として読んでくださいと命令、その結果がreader.resultに入る
-    reader.readAsText(file);
-
-});
-
-
+//JSONファイルの読み込み
+loadDefaultJsonFile();
