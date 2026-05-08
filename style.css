@@ -24,7 +24,7 @@
 
   /* フォント */
   --font-date-group: 1.5rem;
-  --font-part-group: 1.8rem;
+  --font-part-group: 1.3rem;
 }
 
 * {
@@ -72,6 +72,8 @@ body {
   min-width: 0;
   font-size: var(--font-date-group);
   text-align: center;
+  border: var(--main-color) solid 1px;
+  border-radius: var(--radius-sm);
   background: #ffffff;
 }
 
@@ -86,6 +88,9 @@ body {
   width: 5rem;
   font-size: var(--font-date-group);
   text-align: right;
+  border: var(--main-color) solid 1px;
+  border-radius: var(--radius-sm);
+  background: #ffffff;
 }
 
 /*部位・種目・タイプの箱*/
@@ -136,11 +141,17 @@ body {
 #body-part, #exercise {
   flex: 1;
   min-width: 0;
+  border: var(--main-color) solid 1px;
+  border-radius: var(--radius-sm);
+  background: #ffffff;
   font-size: var(--font-part-group);
 }
 
 #exerciseType {
   width: 8rem;
+  border: var(--main-color) solid 1px;
+  border-radius: var(--radius-sm);
+  background: #ffffff;
   font-size: var(--font-part-group);
 }
 
