@@ -213,7 +213,7 @@ body {
 .set2-weight-reps-box,
 .set3-weight-reps-box {
   display: grid;
-  grid-template-columns: 3rem 6.5rem 3rem 1fr;
+  grid-template-columns: 3rem 7.5rem 3rem 1fr;
   gap: var(--space-sm);
   align-items: center;
 }
