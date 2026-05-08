@@ -22,6 +22,9 @@ const downloadJsonButton = document.getElementById("download-json-button");
 //JSON表示エリアの<pre>の要素をId名で取得
 const jsonOutput = document.getElementById("json-output");
 
+//直近3回分の記録を表示するエリアの要素をId名で取得
+const pastRecordsGrid = document.getElementById("past-records-grid");
+
 //トレーニングログを記録していく配列
 const trainingRecords = [];
 
@@ -103,6 +106,88 @@ function updateJsonOutput() {
 }
 
 
+//選択中の種目IDと同じ記録だけを取り出す関数
+function getRecordsBySelectedExercise() {
+    //現在選択されている種目IDを取得
+    const selectedExerciseId = exerciseSelect.value;
+
+    //trainingRecordsの中から、exerciseIdが同じものだけを取り出す
+    //filter - 配列の中から条件に合うものだけを残す
+    const selectedExerciseRecords = trainingRecords.filter((record) => {
+        return record.exerciseId === selectedExerciseId;
+    });
+
+    //日付の新しい順に並べる
+    selectedExerciseRecords.sort((a, b) => {
+        return new Date(b.date) - new Date(a.date);
+    });
+
+    //直近3件だけ取り出す
+    //slice(0, 3) - 配列の0番目～3番目の手前まで取り出す, つまり先頭から3件分(0番目, 1番目, 2番目)
+    const recentThreeRecords = selectedExerciseRecords.slice(0, 3);
+
+    //直近3件を画面に表示する
+    showPastRecords(recentThreeRecords);
+}
+
+
+//直近3件の記録をpast-records-gridに表示する関数
+function showPastRecords(records) {
+    //表示用にコピーして、古い順 → 新しい順にする
+    const displayRecords = [...records].reverse();
+
+    //3件未満の場合は、左側に空データを追加して3列にそろえる
+    while (displayRecords.length < 3) {
+        displayRecords.unshift(null);
+    }
+
+    //一度、中身を空にする
+    pastRecordsGrid.innerHTML = "";
+
+    //1行目：日付行
+    pastRecordsGrid.innerHTML += "<div></div>";
+
+    displayRecords.forEach((record) => {
+        if (record === null) {
+            pastRecordsGrid.innerHTML += "<div>-</div>";
+        } else {
+            const dateText = record.date.slice(5).replace("-", "/");
+            pastRecordsGrid.innerHTML += `<div>${dateText}</div>`;
+        }
+    });
+
+    //1set〜3setの行を作る
+    for (let setNumber = 1; setNumber <= 3; setNumber++) {
+        pastRecordsGrid.innerHTML += `<div>${setNumber}set</div>`;
+
+        displayRecords.forEach((record) => {
+            if (record === null) {
+                pastRecordsGrid.innerHTML += "<div>-</div>";
+                return;
+            }
+
+            const setData = record.sets[setNumber - 1];
+
+            if (setData.weight === null || setData.reps === null) {
+                pastRecordsGrid.innerHTML += "<div>-</div>";
+            } else {
+                const setText = setData.weight + "×" + setData.reps;
+                pastRecordsGrid.innerHTML += `<div>${setText}</div>`;
+            }
+        });
+    }
+}
+
+
+//種目が変更されたときに、直近3回表示を更新する
+exerciseSelect.addEventListener("change", getRecordsBySelectedExercise);
+
+//部位が変更されたときに、直近3回表示を更新する
+bodyPartSelect.addEventListener("change", () => {
+    getRecordsBySelectedExercise();
+});
+
+
 //JSON書き出しボタンが押されたときの処理
 createJsonButton.addEventListener("click", () => {
     
@@ -152,6 +237,9 @@ createJsonButton.addEventListener("click", () => {
 
     //JSON表示エリアを更新する
     updateJsonOutput();
+
+    //記録追加後に直近3回表示も更新
+    getRecordsBySelectedExercise();
 });
 
 
@@ -223,6 +311,9 @@ jsonFileInput.addEventListener("change", () => {
 
         //JSON表示エリアを更新する
         updateJsonOutput();
+
+        //現在選択中の種目の直近3回を表示
+        getRecordsBySelectedExercise();
     });
 
     //選択したファイルを文字列として読み込む
@@ -231,4 +322,5 @@ jsonFileInput.addEventListener("change", () => {
     reader.readAsText(file);
 
 });
+
 

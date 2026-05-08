@@ -172,6 +172,53 @@ body {
   font-size: var(--font-part-group);
 }
 
+/*直近の記録を表示するエリアの箱*/
+.past-records {
+  border: var(--main-color-dark) solid 2px;
+  border-radius: var(--radius-md);
+  padding: var(--space-sm);
+  background: var(--card-color);
+}
+
+/*直近3回のタイトル*/
+.past-records-title {
+  margin: 0 0 var(--space-sm);
+  font-size: 1rem;
+  font-weight: bold;
+  text-indent: 0.25rem;
+}
+
+/*直近記録の表*/
+.past-records-grid {
+  display: grid;
+  grid-template-columns: 3rem repeat(3, 1fr);
+  gap: var(--space-xs);
+  text-align: center;
+  align-items: center;
+}
+
+/*表の各マス*/
+.past-records-grid div {
+  min-height: 2.2rem;
+  padding: 0.35rem 0.2rem;
+  border-radius: var(--radius-sm);
+  background: var(--sub-color);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.past-records-grid div:nth-child(1),
+.past-records-grid div:nth-child(2),
+.past-records-grid div:nth-child(3),
+.past-records-grid div:nth-child(4) {
+  font-weight: bold;
+}
+
 /*すべてのセットの箱*/
 .sets-box {
   display: flex;
@@ -238,6 +285,17 @@ body {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
+}
+
+button {
+  width: 100%;
+  min-height: 3rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--main-color);
+  color: #ffffff;
 }
 
 #json-output {
