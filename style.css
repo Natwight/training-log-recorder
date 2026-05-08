@@ -14,7 +14,7 @@
   /* 余白 */
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
-  --space-md: 1rem;
+  --space-md: 1.0rem;
   --space-lg: 1.5rem;
 
   /* 角丸 */
@@ -25,6 +25,7 @@
   /* フォント */
   --font-date-group: 1.5rem;
   --font-part-group: 1.3rem;
+  --font-sets-group: 1.3rem;
 }
 
 * {
@@ -55,9 +56,10 @@ body {
 }
 
 .date-and-body-box label {
-  width: 3.5rem;
+  width: 3.8rem;
   flex-shrink: 0;
   white-space: nowrap;
+  text-indent: 0.25rem;
   font-size: var(--font-date-group);
 }
 
@@ -106,9 +108,10 @@ body {
 }
 
 .contents-box label {
-  width: 3.5rem;
+  width: 3.8rem;
   flex-shrink: 0;
   white-space: nowrap;
+  text-indent: 0.25rem;
   font-size: var(--font-part-group);
 }
 
@@ -157,32 +160,64 @@ body {
   font-size: var(--font-part-group);
 }
 
-/*
-input,
-select,
-button {
-  width: 100%;
-  padding: 0.75rem;
-  font-size: 1rem;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-color);
-}*/
+/*すべてのセットの箱*/
+.sets-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
 
+  border: var(--main-color-dark) solid 2px;
+  border-radius: var(--radius-md);
+  padding: var(--space-xs);
+}
+
+span {
+  font-size: var(--font-sets-group);
+  font-weight: bold;
+  text-indent: 0.25rem;
+}
+
+.sets-box label {
+  font-size: var(--font-sets-group);
+  text-indent: 0.25rem;
+}
+
+/*セット名と重量箱と回数箱の箱*/
 .set1-box,
 .set2-box,
 .set3-box {
   display: flex;
+  flex-direction: column;
   gap: var(--space-sm);
+
+  padding: var(--space-sm);
+  border: var(--muted-text-color) solid 2px;
+  border-radius: var(--radius-md);
 }
 
-.set1-weight-box,
-.set1-reps-box,
-.set2-weight-box,
-.set2-reps-box,
-.set3-weight-box,
-.set3-reps-box {
-  flex: 1;
+
+/*重量箱と回数箱の箱*/
+.set1-weight-reps-box,
+.set2-weight-reps-box,
+.set3-weight-reps-box {
+  display: grid;
+  grid-template-columns: 3rem 1fr 3rem 1fr;
+  gap: var(--space-sm);
+  align-items: center;
 }
+
+.set1-weight-reps-box select,
+.set2-weight-reps-box select,
+.set3-weight-reps-box select {
+  height: 3.5rem;
+  min-width: 0;
+
+  border: var(--main-color) solid 1px;
+  border-radius: var(--radius-sm);
+  background: #ffffff;
+  font-size: var(--font-sets-group);
+}
+
 
 .json-box {
   display: flex;
@@ -196,81 +231,3 @@ button {
   font-size: 0.85rem;
 }
 
-
-/* 1セット目 重量：大きめ・しっかり */
-.set1-weight-box select {
-  height: 3.4rem;
-  font-size: 1.2rem;
-  padding: 0.8rem;
-  background: #ffffff;
-}
-
-/* 1セット目 回数：やや小さめ */
-.set1-reps-box select {
-  height: 2.8rem;
-  font-size: 1rem;
-  padding: 0.55rem;
-  background: #ffffff;
-}
-
-/* 2セット目 重量：背景あり・押しやすさ重視 */
-.set2-weight-box select {
-  height: 3.6rem;
-  font-size: 1.15rem;
-  padding: 0.85rem;
-  background: var(--sub-color);
-}
-
-/* 2セット目 回数：角丸強め */
-.set2-reps-box select {
-  height: 3.2rem;
-  font-size: 1.05rem;
-  padding: 0.7rem;
-  border-radius: var(--radius-lg);
-  background: #ffffff;
-}
-
-/* 3セット目 重量：コンパクト */
-.set3-weight-box select {
-  height: 2.6rem;
-  font-size: 0.95rem;
-  padding: 0.45rem;
-  background: #ffffff;
-}
-
-/* 3セット目 回数：かなり大きめ */
-.set3-reps-box select {
-  height: 3.8rem;
-  font-size: 1.25rem;
-  padding: 0.9rem;
-  background: var(--sub-color);
-}
-
-.set1-weight-box label {
-  font-size: 1rem;
-  font-weight: bold;
-}
-
-.set1-reps-box label {
-  font-size: 0.9rem;
-}
-
-.set2-weight-box label {
-  font-size: 1rem;
-  color: var(--main-color-dark);
-}
-
-.set2-reps-box label {
-  font-size: 0.95rem;
-  font-weight: bold;
-}
-
-.set3-weight-box label {
-  font-size: 0.85rem;
-}
-
-.set3-reps-box label {
-  font-size: 1.05rem;
-  font-weight: bold;
-  color: var(--main-color-dark);
-}
