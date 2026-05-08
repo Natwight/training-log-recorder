@@ -25,7 +25,7 @@
   /* フォント */
   --font-date-group: 1.5rem;
   --font-part-group: 1.3rem;
-  --font-sets-group: 1.3rem;
+  --font-sets-group: 1.0rem;
 }
 
 * {
@@ -192,6 +192,7 @@ body {
 .sets-box label {
   font-size: var(--font-sets-group);
   text-indent: 0.25rem;
+  white-space: nowrap;
 }
 
 /*セット名と重量箱と回数箱の箱*/
@@ -213,8 +214,8 @@ body {
 .set2-weight-reps-box,
 .set3-weight-reps-box {
   display: grid;
-  grid-template-columns: 3rem 7.5rem 3rem 1fr;
-  gap: var(--space-sm);
+  grid-template-columns: 2.8rem minmax(5.8rem, 1fr) 2.8rem minmax(5.2rem, 1fr);
+  gap: var(--space-xs);
   align-items: center;
 }
 
@@ -222,12 +223,14 @@ body {
 .set2-weight-reps-box select,
 .set3-weight-reps-box select {
   height: 3.5rem;
+  width: 100%;
   min-width: 0;
 
   border: var(--main-color) solid 1px;
   border-radius: var(--radius-sm);
   background: #ffffff;
   font-size: var(--font-sets-group);
+  padding: 0.65rem 0.4rem;
 }
 
 
