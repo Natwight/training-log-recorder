@@ -1,0 +1,457 @@
+:root {
+  /* ==============================
+     基本背景
+  ============================== */
+
+  /* 画面全体の背景：かなり黒に近い */
+  --bg-color: #07090d;
+
+  /* カード背景：bodyより少し明るい黒 */
+  --card-color: #111318;
+
+  /* 入力欄背景：カードより少し明るい */
+  --input-bg-color: #1a1d24;
+
+  /* 直近3回・セットカード内などのサブ背景 */
+  --sub-color: #1f2933;
+
+
+  /* ==============================
+     文字色
+  ============================== */
+
+  /* 通常文字 */
+  --text-color: #f9fafb;
+
+  /* 入力欄の文字 */
+  --input-text-color: #f8fafc;
+
+  /* 補足・控えめな文字 */
+  --muted-text-color: #a7b0bd;
+
+
+  /* ==============================
+     メインカラー
+  ============================== */
+
+  /* 確定・強調用の緑 */
+  --main-color: #22c55e;
+
+  /* 押したときの緑 */
+  --main-color-dark: #16a34a;
+
+  /* 薄い緑背景が必要になったとき用 */
+  --main-bg-color: rgba(34, 197, 94, 0.16);
+
+
+  /* ==============================
+     境界線
+  ============================== */
+
+  /* 黒背景上で見える程度の境界線 */
+  --border-color: #343a46;
+
+
+  /* ==============================
+     危険操作
+  ============================== */
+
+  /* 削除系の赤 */
+  --danger-color: #f87171;
+
+  /* 削除ボタンの薄い背景 */
+  --danger-bg-color: #2a1114;
+}
+
+body {
+  min-height: 100vh;
+  padding: var(--space-md);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+input,
+select,
+button {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.65rem 0.75rem;
+
+  font-size: 1rem;
+  font-family: inherit;
+
+  color: var(--input-text-color);
+  background: var(--input-bg-color);
+
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+input:focus,
+select:focus,
+button:focus {
+  outline: 2px solid var(--main-color);
+  outline-offset: 2px;
+}
+
+/* ==============================
+   日付・体重エリア
+============================== */
+
+.date-and-body-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+
+  padding: var(--space-sm);
+  background: var(--card-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+.date-box,
+.body-weight-box {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.date-box label,
+.body-weight-box label {
+  width: 3.5rem;
+  flex-shrink: 0;
+  white-space: nowrap;
+
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+#training-date {
+  flex: 1;
+  min-width: 0;
+
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.body-weight-input-box {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+#body-weight {
+  width: 6rem;
+
+  font-size: 1.1rem;
+  text-align: right;
+}
+
+.body-weight-input-box span {
+  flex-shrink: 0;
+  font-size: 1.1rem;
+  color: var(--text-color);
+}
+
+/* ==============================
+   参照・記録エリア
+============================== */
+
+.reference-area {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* ==============================
+   部位・種目・タイプエリア
+============================== */
+
+.reference-select-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+
+  padding: var(--space-md);
+  background: var(--card-color);
+  border: 1px solid var(--border-color);
+  border-left: 0.25rem solid var(--main-color);
+  border-radius: var(--radius-md);
+}
+
+.reference-part-box,
+.reference-exercise-box,
+.reference-type-box {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.reference-part-box label,
+.reference-exercise-box label,
+.reference-type-box label {
+  width: 3.5rem;
+  flex-shrink: 0;
+  white-space: nowrap;
+
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+#reference-body-part,
+#reference-exercise {
+  flex: 1;
+  min-width: 0;
+
+  font-size: 1.1rem;
+}
+
+#reference-exercise-type {
+  width: 8rem;
+
+  font-size: 1.1rem;
+}
+
+/* ==============================
+   直近3回エリア
+============================== */
+
+.reference-past-records {
+  padding: var(--space-md);
+  background: var(--card-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+.past-records-title {
+  margin: 0 0 var(--space-sm);
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.past-records-grid {
+  display: grid;
+  grid-template-columns: 3rem repeat(3, 1fr);
+  gap: var(--space-xs);
+  text-align: center;
+  align-items: center;
+}
+
+.past-records-grid div {
+  min-height: 2.25rem;
+  padding: 0.35rem 0.2rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 0.88rem;
+  line-height: 1.2;
+  white-space: nowrap;
+
+  background: var(--sub-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+}
+
+/* 日付行だけ少し強調 */
+.past-records-grid div:nth-child(1),
+.past-records-grid div:nth-child(2),
+.past-records-grid div:nth-child(3),
+.past-records-grid div:nth-child(4) {
+  font-weight: bold;
+  background: var(--input-bg-color);
+  color: var(--input-text-color);
+}
+
+/* ==============================
+   セット入力エリア
+============================== */
+
+.reference-sets-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+
+  padding: var(--space-sm);
+  background: var(--card-color);
+  border: 1px solid var(--border-color);
+  border-left: 0.25rem solid var(--main-color);
+  border-radius: var(--radius-md);
+}
+
+.reference-set-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+
+  padding: var(--space-sm);
+  background: var(--sub-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+.reference-set-box span {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+/* 重量 [select] 回数 [select] */
+.reference-weight-reps-box {
+  display: grid;
+  grid-template-columns: 2.6rem minmax(5rem, 1fr) 2.6rem minmax(4.8rem, 1fr);
+  gap: var(--space-xs);
+  align-items: center;
+}
+
+.reference-weight-reps-box label {
+  font-size: 0.95rem;
+  font-weight: bold;
+  white-space: nowrap;
+  color: var(--text-color);
+}
+
+.reference-weight-reps-box select {
+  width: 100%;
+  min-width: 0;
+  min-height: 3.2rem;
+
+  font-size: 1rem;
+  padding: 0.55rem 0.35rem;
+}
+
+/* ==============================
+   入力確定ボタン
+============================== */
+
+#reference-add-button {
+  width: 100%;
+  min-height: 3.5rem;
+
+  padding: 0.8rem 1rem;
+  font-size: 1.15rem;
+  font-weight: bold;
+
+  color: #052e16;
+  background: var(--main-color);
+
+  border: none;
+  border-radius: var(--radius-md);
+}
+
+#reference-add-button:active {
+  background: var(--main-color-dark);
+  transform: scale(0.98);
+}
+
+/* ==============================
+   一時保存中の記録エリア
+============================== */
+
+.training-date-records-box {
+  padding: var(--space-md);
+  background: var(--card-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+.training-date-records-title {
+  margin: 0 0 var(--space-sm);
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+#training-date-records-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.training-date-record-item {
+  padding: var(--space-sm);
+  background: var(--sub-color);
+  border: 1px solid var(--border-color);
+  border-left: 0.25rem solid var(--main-color);
+  border-radius: var(--radius-md);
+}
+
+.training-date-record-item p {
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--text-color);
+}
+
+.local-record-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+
+  margin-bottom: var(--space-xs);
+}
+
+.local-record-header p {
+  min-width: 0;
+  margin: 0;
+
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+/* ==============================
+   削除ボタン
+============================== */
+
+/* 各記録の横にある削除ボタン */
+.delete-local-record-button {
+  width: auto;
+  min-height: 2.2rem;
+
+  padding: 0.35rem 0.7rem;
+  font-size: 0.85rem;
+  font-weight: bold;
+
+  color: var(--danger-color);
+  background: var(--danger-bg-color);
+
+  border: 1px solid rgba(248, 113, 113, 0.55);
+  border-radius: var(--radius-sm);
+
+  white-space: nowrap;
+}
+
+.delete-local-record-button:active {
+  transform: scale(0.96);
+}
+
+/* 一時記録をすべて削除するボタン */
+#clear-local-records-button {
+  width: 100%;
+  min-height: 3rem;
+
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+
+  color: var(--danger-color);
+  background: transparent;
+
+  border: 1px solid rgba(248, 113, 113, 0.6);
+  border-radius: var(--radius-md);
+}
+
+#clear-local-records-button:active {
+  background: var(--danger-bg-color);
+  transform: scale(0.98);
+}

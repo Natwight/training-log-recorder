@@ -19,12 +19,11 @@ const jsonOutput = document.getElementById("json-output");
 //直近3回分の記録を表示するエリアの要素をId名で取得
 const pastRecordsGrid = document.getElementById("past-records-grid");
 
-//トレーニングログを記録していく配列
-const trainingRecords = [];
-
 
 //初期設定
 init_Date();
+loadLocalTrainingRecords();
+updateJsonOutput();
 
 
 //日付に初期値(今日の日付データ 例 : 2026-05-04)を入力
@@ -55,7 +54,7 @@ function createRecordId(dateValue, recordNumber) {
 function getRecordNumberByDate(dateValue) {
     let count = 0;
 
-    trainingRecords.forEach((record) => {
+    localTrainingRecords.forEach((record) => {
         //配列の中から日付(date)が同じものを探す
         if (record.date === dateValue) {
             //日付が一致するものがあるほどに1足していく
@@ -98,13 +97,8 @@ function loadDefaultJsonFile() {
             return response.json();
         })
         .then((loadedRecords) => {
-            trainingRecords.length = 0;
+            setReferenceRecords(loadedRecords);
 
-            loadedRecords.forEach((record) => {
-                trainingRecords.push(record);
-            });
-
-            updateJsonOutput();
             getRecordsBySelectedExercise();
         });
 }
@@ -113,7 +107,7 @@ function loadDefaultJsonFile() {
 //JSON表示エリアを更新する関数
 function updateJsonOutput() {
     //画面表示用にだけ新しい順にする
-    const displayRecords = [...trainingRecords].reverse();
+    const displayRecords = [...localTrainingRecords].reverse();
 
     jsonOutput.textContent = JSON.stringify(displayRecords, null, 2);
 }
@@ -126,7 +120,7 @@ function getRecordsBySelectedExercise() {
 
     //trainingRecordsの中から、exerciseIdが同じものだけを取り出す
     //filter - 配列の中から条件に合うものだけを残す
-    const selectedExerciseRecords = trainingRecords.filter((record) => {
+    const selectedExerciseRecords = referenceRecords.filter((record) => {
         return record.exerciseId === selectedExerciseId;
     });
 
@@ -246,12 +240,12 @@ createJsonButton.addEventListener("click", () => {
     };
 
     //配列にトレーニングログを追加
-    trainingRecords.push(trainingRecord);
+    localTrainingRecords.push(trainingRecord);
 
-    //JSON表示エリアを更新する
+    saveLocalTrainingRecords();
+
     updateJsonOutput();
 
-    //記録追加後に直近3回表示も更新
     getRecordsBySelectedExercise();
 });
 
@@ -260,8 +254,8 @@ createJsonButton.addEventListener("click", () => {
 //JSONファイルを生成して保存する
 downloadJsonButton.addEventListener("click", () => {
 
-    //trainingRecordsをJSON文字列にする
-    const jsonText = JSON.stringify(trainingRecords, null, 2);
+    //localTrainingRecordsをJSON文字列にする
+    const jsonText = JSON.stringify(localTrainingRecords, null, 2);
 
     //JSON文字列をファイルのように扱えるデータにする
     const blob = new Blob([jsonText], { type: "application/json" });

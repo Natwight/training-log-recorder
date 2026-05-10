@@ -7,7 +7,10 @@
 
   <title>Training Log Recorder</title>
 
-  <link rel="stylesheet" href="style.css">
+  <!-- mobile用 index.html -->
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/mobile.css">
+
 </head>
 <body>
 
@@ -28,35 +31,37 @@
     </div>
   </div>
 
-  <!--内容選択-->
-  <div class="contents-box">
-  
-    <!--部位選択-->
-    <div class="part-box">
-      <label for="body-part">部位</label>
-      <select id="body-part">
-        <option value="chest" selected>胸</option>
-        <option value="back">背中</option>
-        <option value="shoulders">肩</option>
-        <option value="arms">腕</option>
-        <option value="legs">脚</option>
-        <option value="core">体幹</option>
-      </select>
-    </div>
 
-    <div class="exercise-and-type">
-      
-      <!--種目選択-->
-      <div class="exercise-box">
-        <label for="exercise">種目</label>
-        <select id="exercise"></select>
+  <!--参照・記録エリア-->
+  <div id="reference-area" class="reference-area">
+
+    <!--部位・種目・タイプ選択-->
+    <div class="reference-select-box">
+
+      <!--部位選択-->
+      <div class="reference-part-box">
+        <label for="reference-body-part">部位</label>
+        <select id="reference-body-part">
+          <option value="chest" selected>胸</option>
+          <option value="back">背中</option>
+          <option value="shoulders">肩</option>
+          <option value="arms">腕</option>
+          <option value="legs">脚</option>
+          <option value="core">体幹</option>
+        </select>
       </div>
 
-      <!--タイプ選択-->
-      <div class="exerciseType-box">
-        <label for="exerciseType">タイプ</label>
-        <select id="exerciseType">
-          <option value="weight" selected>ウェイト</option>
+      <!--種目選択-->
+      <div class="reference-exercise-box">
+        <label for="reference-exercise">種目</label>
+        <select id="reference-exercise"></select>
+      </div>
+
+      <!--タイプ表示・選択-->
+      <div class="reference-type-box">
+        <label for="reference-exercise-type">タイプ</label>
+        <select id="reference-exercise-type">
+          <option value="weight">ウェイト</option>
           <option value="assisted_bodyweight">アシスト</option>
           <option value="bodyweight">自重</option>
         </select>
@@ -64,95 +69,96 @@
 
     </div>
 
-  </div>
+    <!--直近3回の記録-->
+    <div class="reference-past-records">
+      <p class="past-records-title">直近3回</p>
 
-  <!--直近の記録3回分を表示するエリア-->
-  <div class="past-records">
-    <p class="past-records-title">直近3回</p>
+      <div id="reference-past-records-grid" class="past-records-grid">
+        <div></div>
+        <div>-</div>
+        <div>-</div>
+        <div>-</div>
 
-    <div id="past-records-grid" class="past-records-grid">
-      <div></div>
-      <div>-</div>
-      <div>-</div>
-      <div>-</div>
+        <div>1set</div>
+        <div>-</div>
+        <div>-</div>
+        <div>-</div>
 
-      <div>1set</div>
-      <div>-</div>
-      <div>-</div>
-      <div>-</div>
+        <div>2set</div>
+        <div>-</div>
+        <div>-</div>
+        <div>-</div>
 
-      <div>2set</div>
-      <div>-</div>
-      <div>-</div>
-      <div>-</div>
-
-      <div>3set</div>
-      <div>-</div>
-      <div>-</div>
-      <div>-</div>
-    </div>
-  </div>
-
-  <!--重量と回数入力-->
-  <div class="sets-box">
-
-    <!--1セット目-->
-    <div class="set1-box">
-      <span>1セット目</span>
-      <div class="set1-weight-reps-box">
-        <!--重量入力-->
-        <label for="set1-weight">重量</label>
-        <select id="set1-weight"></select>
-        
-        <!--回数入力-->
-        <label for="set1-reps">回数</label>
-        <select id="set1-reps"></select>        
+        <div>3set</div>
+        <div>-</div>
+        <div>-</div>
+        <div>-</div>
       </div>
     </div>
 
-    <!--2セット目-->
-    <div class="set2-box"> 
-      <span>2セット目</span>
-      <div class="set2-weight-reps-box">     
-        <!--重量入力-->
-        <label for="set2-weight">重量</label>
-        <select id="set2-weight"></select>
-      
-        <!--回数入力-->
-        <label for="set2-reps">回数</label>
-        <select id="set2-reps"></select>
+    <!--今回のセット入力-->
+    <div class="reference-sets-box">
+
+      <!--1セット目-->
+      <div class="reference-set-box">
+        <span>1セット目</span>
+
+        <div class="reference-weight-reps-box">
+          <label for="reference-set1-weight">重量</label>
+          <select id="reference-set1-weight"></select>
+
+          <label for="reference-set1-reps">回数</label>
+          <select id="reference-set1-reps"></select>
+        </div>
       </div>
+
+      <!--2セット目-->
+      <div class="reference-set-box">
+        <span>2セット目</span>
+
+        <div class="reference-weight-reps-box">
+          <label for="reference-set2-weight">重量</label>
+          <select id="reference-set2-weight"></select>
+
+          <label for="reference-set2-reps">回数</label>
+          <select id="reference-set2-reps"></select>
+        </div>
+      </div>
+
+      <!--3セット目-->
+      <div class="reference-set-box">
+        <span>3セット目</span>
+
+        <div class="reference-weight-reps-box">
+          <label for="reference-set3-weight">重量</label>
+          <select id="reference-set3-weight"></select>
+
+          <label for="reference-set3-reps">回数</label>
+          <select id="reference-set3-reps"></select>
+        </div>
+      </div>
+
     </div>
 
-    <!--3セット目-->
-    <div class="set3-box">
-      <span>3セット目</span>
-      <div class="set3-weight-reps-box">
-        <!--重量入力-->
-        <label for="set3-weight">重量</label>
-        <select id="set3-weight"></select>
-      
-        <!--回数入力-->
-        <label for="set3-reps">回数</label>
-        <select id="set3-reps"></select>
-      </div>
+    <!--入力確定ボタン-->
+    <button type="button" id="reference-add-button">入力を確定する</button>
+
+    <!--実施済み種目-->
+    <div class="training-date-records-box">
+      <p class="training-date-records-title">一時保存中の記録</p>
+      <div id="training-date-records-list"></div>
     </div>
 
+    <button type="button" id="clear-local-records-button">
+    一時記録を削除
+    </button>
   </div>
 
-  <div class="json-box">
-    <!--JSON書き出しボタン-->
-    <button type="button" id="create-json-button">新しいJSONファイルに記録</button>
 
-    <!--JSONファイル保存ボタン-->
-    <button type="button" id="download-json-button">JSONファイルを保存</button>
-  </div>
-
-  <!--JSON表示エリア-->
-  <pre id="json-output"></pre>  
 
   <script src="js/data.js"></script>
-  <script src="js/app.js"></script>
-  <script src="js/record.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/select-options.js"></script>
+  <script src="js/mobile.js"></script>
 </body>
 </html>
