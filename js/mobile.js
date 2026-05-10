@@ -49,6 +49,9 @@ const referenceAddButton = document.getElementById("reference-add-button");
 //参照エリア：一時保存中の記録を表示するエリアを取得
 const trainingDateRecordsList = document.getElementById("training-date-records-list");
 
+// 全記録JSONダウンロードボタン
+const downloadAllRecordsButton = document.getElementById("download-all-records-button");
+
 //一時記録削除ボタンを取得
 const clearLocalRecordsButton = document.getElementById("clear-local-records-button");
 
@@ -115,6 +118,21 @@ function createSetData(setNumber, weightSelect, repsSelect) {
     };
 }
 
+
+// ==============================
+// ファイル名用の日付文字列を作る
+// ==============================
+
+// 例：2026-05-10
+function createTodayTextForFileName() {
+    const today = new Date();
+
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const date = String(today.getDate()).padStart(2, "0");
+
+    return year + "-" + month + "-" + date;
+}
 
 
 // ==============================
@@ -351,6 +369,50 @@ trainingDateRecordsList.addEventListener("click", (event) => {
     deleteLocalTrainingRecord(recordId);
 });
 
+
+// ==============================
+// 全記録JSONダウンロード
+// ==============================
+
+downloadAllRecordsButton.addEventListener("click", () => {
+
+    // referenceRecords と localTrainingRecords をまとめる
+    const allRecords = [
+        ...referenceRecords,
+        ...localTrainingRecords
+    ];
+
+    // 記録が1件もない場合
+    if (allRecords.length === 0) {
+        alert("保存できる記録がありません。");
+        return;
+    }
+
+    // JSON文字列にする
+    const jsonText = JSON.stringify(allRecords, null, 2);
+
+    // JSON文字列をファイルのように扱えるデータにする
+    const blob = new Blob([jsonText], { type: "application/json" });
+
+    // そのファイルデータに一時的なURLを作成する
+    const url = URL.createObjectURL(blob);
+
+    // ダウンロード用の<a>要素を作る
+    const link = document.createElement("a");
+
+    link.href = url;
+
+    // 今日の日付入りファイル名
+    const todayText = createTodayTextForFileName();
+
+    link.download = "training-records-" + todayText + ".json";
+
+    // ダウンロードを実行する
+    link.click();
+
+    // 一時的なURLを解放する
+    URL.revokeObjectURL(url);
+});
 
 
 // ==============================
