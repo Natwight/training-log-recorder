@@ -391,8 +391,13 @@ downloadAllRecordsButton.addEventListener("click", () => {
     // JSON文字列にする
     const jsonText = JSON.stringify(allRecords, null, 2);
 
+    // UTF-8として認識されやすくするため、先頭にBOMを付ける
+    const bom = "\uFEFF";
+
     // JSON文字列をファイルのように扱えるデータにする
-    const blob = new Blob([jsonText], { type: "application/json" });
+    const blob = new Blob([bom + jsonText], {
+        type: "application/json;charset=utf-8"
+    });
 
     // そのファイルデータに一時的なURLを作成する
     const url = URL.createObjectURL(blob);
