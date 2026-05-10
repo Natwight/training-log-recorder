@@ -410,7 +410,7 @@ downloadAllRecordsButton.addEventListener("click", () => {
     // 今日の日付入りファイル名
     const todayText = createTodayTextForFileName();
 
-    link.download = "training-records-" + todayText + ".json";
+    link.download = "training-records-backup-" + todayText + ".json";
 
     // ダウンロードを実行する
     link.click();
