@@ -235,6 +235,9 @@ function getReferenceRecordsBySelectedExercise() {
     const recentThreeRecords = selectedExerciseRecords.slice(0, 3);
 
     showReferencePastRecords(recentThreeRecords);
+
+    // 最新記録の重量を入力欄へ反映する
+    setLatestWeightFromRecentRecords(recentThreeRecords);
 }
 
 
@@ -283,6 +286,45 @@ function showReferencePastRecords(records) {
     }
 }
 
+
+// ==============================
+// 参照エリア：最新記録の重量を入力欄へ反映
+// ==============================
+
+// 直近記録の中から、最新記録の1セット目重量を入力欄へ入れる関数
+function setLatestWeightFromRecentRecords(recentRecords) {
+
+    // 直近記録がない場合は何もしない
+    if (recentRecords.length === 0) {
+        return;
+    }
+
+    // recentRecords は新しい順なので、0番目が最新記録
+    const latestRecord = recentRecords[0];
+
+    // 最新記録にsetsがない場合は何もしない
+    if (!latestRecord.sets || latestRecord.sets.length === 0) {
+        return;
+    }
+
+    // 最新記録の1セット目を取り出す
+    const firstSet = latestRecord.sets[0];
+
+    // 1セット目の重量がない場合は何もしない
+    if (firstSet.weight === null) {
+        return;
+    }
+
+    // selectのvalueに合わせるため、小数1桁の文字列にする
+    const latestWeightText = Number(firstSet.weight).toFixed(1);
+
+    // 1セット目に最新重量を入れる
+    referenceSet1Weight.value = latestWeightText;
+
+    // 2セット目・3セット目にも同じ重量を入れる
+    referenceSet2Weight.value = latestWeightText;
+    referenceSet3Weight.value = latestWeightText;
+}
 
 
 // ==============================

@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "id": "rec_20260422_001",
     "date": "2026-04-22",
@@ -311,8 +311,8 @@
     "id": "rec_20260427_002",
     "date": "2026-04-27",
     "part": "back",
-    "exerciseId": "ex_seated_rowing",
-    "exercise": "シーテッドローイング",
+    "exerciseId": "ex_seated_cable_rowing",
+    "exercise": "シーテッドケーブルローイング",
     "type": "weight",
     "unit": "kg",
     "bodyWeight": 50,
@@ -1179,8 +1179,8 @@
     "id": "rec_20260507_002",
     "date": "2026-05-07",
     "part": "back",
-    "exerciseId": "ex_seated_rowing",
-    "exercise": "シーテッドローイング",
+    "exerciseId": "ex_seated_cable_rowing",
+    "exercise": "シーテッドケーブルローイング",
     "type": "weight",
     "unit": "kg",
     "bodyWeight": 50,
@@ -1226,6 +1226,202 @@
       {
         "set": 3,
         "weight": 14,
+        "reps": 12
+      }
+    ],
+    "memo": ""
+  },
+  {
+    "id": "rec_20260511_001",
+    "date": "2026-05-11",
+    "part": "back",
+    "exerciseId": "ex_assisted_chinning",
+    "exercise": "アシストチンニング",
+    "type": "assisted_bodyweight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 35,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 35,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 35,
+        "reps": 10
+      }
+    ],
+    "memo": ""
+  },
+  {
+    "id": "rec_20260511_002",
+    "date": "2026-05-11",
+    "part": "shoulders",
+    "exerciseId": "ex_shoulder_press",
+    "exercise": "ショルダープレス",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 20,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 20,
+        "reps": 10
+      },
+      {
+        "set": 3,
+        "weight": 20,
+        "reps": 6
+      }
+    ],
+    "memo": ""
+  },
+  {
+    "id": "rec_20260511_003",
+    "date": "2026-05-11",
+    "part": "legs",
+    "exerciseId": "ex_seated_leg_press",
+    "exercise": "シーテッドレッグプレス",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 50,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 50,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 50,
+        "reps": 12
+      }
+    ],
+    "memo": ""
+  },
+  {
+    "id": "rec_20260511_004",
+    "date": "2026-05-11",
+    "part": "shoulders",
+    "exerciseId": "ex_lateral_raise",
+    "exercise": "ラテラルレイズ",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 15,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 15,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 15,
+        "reps": 8
+      }
+    ],
+    "memo": ""
+  },
+  {
+    "id": "rec_20260511_005",
+    "date": "2026-05-11",
+    "part": "chest",
+    "exerciseId": "ex_pec_fly",
+    "exercise": "ペックフライ",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 20,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 20,
+        "reps": 9
+      },
+      {
+        "set": 3,
+        "weight": 20,
+        "reps": 6
+      }
+    ],
+    "memo": ""
+  },
+  {
+    "id": "rec_20260511_006",
+    "date": "2026-05-11",
+    "part": "back",
+    "exerciseId": "ex_lat_pulldown",
+    "exercise": "ラットプルダウン",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 25,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 25,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 25,
+        "reps": 9
+      }
+    ],
+    "memo": ""
+  },
+  {
+    "id": "rec_20260511_007",
+    "date": "2026-05-11",
+    "part": "back",
+    "exerciseId": "ex_machine_rowing",
+    "exercise": "マシンローイング",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 15,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 15,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 15,
         "reps": 12
       }
     ],

@@ -2,6 +2,7 @@
 const exercisesByPart = {
     chest: [
         { id: "ex_bench_press", name: "ベンチプレス" },
+        { id: "ex_smith_bench_press", name: "スミスベンチプレス" },
         { id: "ex_chest_press", name: "チェストプレス" },
         { id: "ex_upper_chest_press", name: "アッパーチェストプレス" },
         { id: "ex_pec_fly", name: "ペックフライ" },
@@ -10,7 +11,8 @@ const exercisesByPart = {
 
     back: [
         { id: "ex_lat_pulldown", name: "ラットプルダウン" },
-        { id: "ex_seated_rowing", name: "シーテッドローイング" },
+        { id: "ex_machine_rowing", name: "マシンローイング"},
+        { id: "ex_seated_cable_rowing", name: "シーテッドケーブルローイング" },
         { id: "ex_assisted_chinning", name: "アシストチンニング" }
     ],
 
@@ -30,7 +32,9 @@ const exercisesByPart = {
         { id: "ex_45deg_leg_press", name: "45°レッグプレス" },
         { id: "ex_seated_leg_press", name: "シーテッドレッグプレス" },
         { id: "ex_leg_curl", name: "レッグカール" },
-        { id: "ex_leg_extension", name: "レッグエクステンション" }
+        { id: "ex_leg_extension", name: "レッグエクステンション" },
+        { id: "ex_hip_abduction", name: "ヒップアブダクション（開く）" },
+        { id: "ex_hip_adduction", name: "ヒップアダクション（閉じる）" }
     ],
 
     core: [

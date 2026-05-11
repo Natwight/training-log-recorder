@@ -189,14 +189,14 @@ button:focus {
 .reference-exercise-box,
 .reference-type-box {
   display: flex;
-  align-items: center;
-  gap: var(--space-sm);
+  flex-direction: column;
+  gap: var(--space-xs);
 }
 
 .reference-part-box label,
 .reference-exercise-box label,
 .reference-type-box label {
-  width: 3.5rem;
+  width: auto;
   flex-shrink: 0;
   white-space: nowrap;
 
@@ -206,15 +206,10 @@ button:focus {
 }
 
 #reference-body-part,
-#reference-exercise {
-  flex: 1;
-  min-width: 0;
-
-  font-size: 1.1rem;
-}
-
+#reference-exercise,
 #reference-exercise-type {
-  width: 8rem;
+  width: 100%;
+  min-width: 0;
 
   font-size: 1.1rem;
 }
