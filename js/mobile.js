@@ -28,6 +28,12 @@ const referenceExerciseSelect = document.getElementById("reference-exercise");
 //参照エリア：タイプ選択の<select>を取得
 const referenceExerciseTypeSelect = document.getElementById("reference-exercise-type");
 
+// 参照エリア：テンポ表示を取得
+const referenceTempoText = document.getElementById("reference-tempo-text");
+
+// 参照エリア：メモ表示を取得
+const referenceMemoText = document.getElementById("reference-memo-text");
+
 //参照エリア：直近3回分の記録を表示するエリアを取得
 const referencePastRecordsGrid = document.getElementById("reference-past-records-grid");
 
@@ -186,7 +192,10 @@ function updateReferenceExerciseSelect() {
 function getReferenceExerciseType(exerciseId) {
 
     //アシスト系
-    if (exerciseId === "ex_assisted_chinning") {
+    if (
+        exerciseId === "ex_assisted_pull_up" ||
+        exerciseId === "ex_assisted_chin_up"
+    ) {
         return "assisted_bodyweight";
     }
 
@@ -194,8 +203,7 @@ function getReferenceExerciseType(exerciseId) {
     if (
         exerciseId === "ex_push_up" ||
         exerciseId === "ex_squat" ||
-        exerciseId === "ex_crunch" ||
-        exerciseId === "ex_plank"
+        exerciseId === "ex_crunch"
     ) {
         return "bodyweight";
     }
@@ -214,6 +222,45 @@ function updateReferenceExerciseType() {
     referenceExerciseTypeSelect.value = exerciseType;
 }
 
+
+// 参照エリア：選択中の種目データを取得する関数
+function getSelectedExerciseData() {
+    const selectedPart = referenceBodyPartSelect.value;
+    const selectedExerciseId = referenceExerciseSelect.value;
+
+    const exerciseList = exercisesByPart[selectedPart];
+
+    const selectedExercise = exerciseList.find((exercise) => {
+        return exercise.id === selectedExerciseId;
+    });
+
+    return selectedExercise;
+}
+
+
+// 参照エリア：テンポとメモを表示する関数
+function updateReferenceMemo() {
+    const selectedExercise = getSelectedExerciseData();
+
+    if (!selectedExercise) {
+        referenceTempoText.textContent = "テンポ：-";
+        referenceMemoText.textContent = "-";
+        return;
+    }
+
+    if (selectedExercise.tempo) {
+        referenceTempoText.textContent =
+            "テンポ：" + selectedExercise.tempo + "（動作・保持・制御）";
+    } else {
+        referenceTempoText.textContent = "テンポ：-";
+    }
+
+    if (selectedExercise.memo) {
+        referenceMemoText.textContent = selectedExercise.memo;
+    } else {
+        referenceMemoText.textContent = "-";
+    }
+}
 
 
 // ==============================
@@ -341,7 +388,11 @@ function showLocalTrainingRecords() {
         return;
     }
 
-    localTrainingRecords.forEach((record) => {
+    // localTrainingRecords はJSON保存用に新しい順で保持する。
+    // 画面では実施順に見たいので、表示用だけ古い順にする。
+    const displayRecords = [...localTrainingRecords].reverse();
+
+    displayRecords.forEach((record) => {
         const recordBox = document.createElement("div");
         recordBox.classList.add("training-date-record-item");
 
@@ -374,7 +425,6 @@ function showLocalTrainingRecords() {
         trainingDateRecordsList.appendChild(recordBox);
     });
 }
-
 
 
 // ==============================
@@ -418,10 +468,10 @@ trainingDateRecordsList.addEventListener("click", (event) => {
 
 downloadAllRecordsButton.addEventListener("click", () => {
 
-    // referenceRecords と localTrainingRecords をまとめる
+    // localTrainingRecords と referenceRecords をまとめる
     const allRecords = [
-        ...referenceRecords,
-        ...localTrainingRecords
+        ...localTrainingRecords,
+        ...referenceRecords
     ];
 
     // 記録が1件もない場合
@@ -517,10 +567,10 @@ referenceAddButton.addEventListener("click", () => {
         unit: "kg",
         bodyWeight: bodyWeightValue,
         sets: sets,
-        memo: ""
+        note: ""
     };
 
-    localTrainingRecords.push(trainingRecord);
+    localTrainingRecords.unshift(trainingRecord);
 
     saveLocalTrainingRecords();
 
@@ -537,6 +587,7 @@ referenceAddButton.addEventListener("click", () => {
 referenceBodyPartSelect.addEventListener("change", () => {
     updateReferenceExerciseSelect();
     updateReferenceExerciseType();
+    updateReferenceMemo();
     getReferenceRecordsBySelectedExercise();
 });
 
@@ -544,6 +595,7 @@ referenceBodyPartSelect.addEventListener("change", () => {
 //参照エリア：種目が変更されたときにタイプ・直近3回表示を更新する
 referenceExerciseSelect.addEventListener("change", () => {
     updateReferenceExerciseType();
+    updateReferenceMemo();
     getReferenceRecordsBySelectedExercise();
 });
 
@@ -571,6 +623,9 @@ updateReferenceExerciseSelect();
 
 //参照エリア：タイプ<select>初期表示
 updateReferenceExerciseType();
+
+//参照エリア：テンポ・メモ初期表示
+updateReferenceMemo();
 
 //参照エリア：重量<select>表示
 weightNumberSetting(referenceSet1Weight);

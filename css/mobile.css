@@ -100,6 +100,24 @@ button:focus {
 }
 
 /* ==============================
+   バージョン表示
+============================== */
+
+.app-version-box {
+  padding: 0 var(--space-xs);
+  text-align: center;
+}
+
+.app-version-box p {
+  margin: 0;
+
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: var(--muted-text-color);
+  letter-spacing: 0.02em;
+}
+
+/* ==============================
    日付・体重エリア
 ============================== */
 
@@ -212,6 +230,53 @@ button:focus {
   min-width: 0;
 
   font-size: 1.1rem;
+}
+
+/* ==============================
+   種目メモ表示
+============================== */
+
+.reference-memo-box {
+  padding: var(--space-sm);
+
+  background: var(--sub-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+.reference-memo-box p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.reference-memo-box p + p {
+  margin-top: var(--space-xs);
+}
+
+#reference-tempo-text {
+  font-weight: bold;
+  color: var(--main-color);
+}
+
+.reference-memo-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+
+  margin-top: var(--space-sm);
+}
+
+.reference-memo-label {
+  font-weight: bold;
+  color: var(--muted-text-color);
+}
+
+#reference-memo-text {
+  color: var(--text-color);
 }
 
 /* ==============================

@@ -5,7 +5,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Training Log Recorder v1.01</title>
+  <title>Training Log Recorder v1.02</title>
 
   <!-- mobile用 index.html -->
   <link rel="stylesheet" href="css/common.css">
@@ -13,6 +13,11 @@
 
 </head>
 <body>
+
+  <!--バージョン表示-->
+  <div class="app-version-box">
+    <p>Training Log App v1.02</p>
+  </div>
 
   <div class="date-and-body-box">
     <!--日付入力-->
@@ -46,8 +51,8 @@
           <option value="back">背中</option>
           <option value="shoulders">肩</option>
           <option value="arms">腕</option>
+          <option value="abs">腹筋</option>
           <option value="legs">脚</option>
-          <option value="core">体幹</option>
         </select>
       </div>
 
@@ -67,6 +72,16 @@
         </select>
       </div>
 
+      <!--種目メモ表示-->
+      <div class="reference-memo-box">
+        <p id="reference-tempo-text">テンポ：-</p>
+
+        <div class="reference-memo-content">
+          <p class="reference-memo-label">メモ：</p>
+          <p id="reference-memo-text">-</p>
+        </div>
+      </div>
+    
     </div>
 
     <!--直近3回の記録-->
