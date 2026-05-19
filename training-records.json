@@ -1,5 +1,145 @@
 ﻿[
   {
+    "id": "rec_20260519_005",
+    "date": "2026-05-19",
+    "part": "back",
+    "exerciseId": "ex_machine_rowing",
+    "exercise": "マシンローイング",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 30,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 30,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 30,
+        "reps": 15
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "rec_20260519_004",
+    "date": "2026-05-19",
+    "part": "legs",
+    "exerciseId": "ex_leg_extension",
+    "exercise": "レッグエクステンション",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 30,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 30,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 30,
+        "reps": 10
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "rec_20260519_003",
+    "date": "2026-05-19",
+    "part": "shoulders",
+    "exerciseId": "ex_shoulder_press",
+    "exercise": "ショルダープレス",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 15,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 15,
+        "reps": 6
+      },
+      {
+        "set": 3,
+        "weight": 15,
+        "reps": 7
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "rec_20260519_002",
+    "date": "2026-05-19",
+    "part": "legs",
+    "exerciseId": "ex_leg_curl",
+    "exercise": "レッグカール",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 20,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 20,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 20,
+        "reps": 12
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "rec_20260519_001",
+    "date": "2026-05-19",
+    "part": "back",
+    "exerciseId": "ex_assisted_pull_up",
+    "exercise": "アシストプルアップ（順手）",
+    "type": "assisted_bodyweight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 40,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 40,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 40,
+        "reps": 7
+      }
+    ],
+    "note": ""
+  },
+  {
     "id": "rec_20260517_007",
     "date": "2026-05-17",
     "part": "legs",
