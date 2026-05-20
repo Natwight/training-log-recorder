@@ -413,6 +413,17 @@ button:focus {
   transform: scale(0.98);
 }
 
+#reference-add-button.is-saved {
+  color: #052e16;
+  background: #86efac;
+  transform: scale(0.98);
+}
+
+#reference-add-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.85;
+}
+
 /* ==============================
    一時保存中の記録エリア
 ============================== */

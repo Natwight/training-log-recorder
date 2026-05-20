@@ -126,6 +126,57 @@ function createSetData(setNumber, weightSelect, repsSelect) {
 
 
 // ==============================
+// 入力チェック
+// ==============================
+
+// 1セット目の回数が入力されているか確認する関数
+function validateTrainingInput() {
+    if (referenceSet1Reps.value === "") {
+        alert("1セット目の回数を入力してください。");
+        return false;
+    }
+
+    return true;
+}
+
+
+// ==============================
+// 入力欄リセット
+// ==============================
+
+// 回数入力だけを未実施に戻す関数
+function resetRepsInputs() {
+    referenceSet1Reps.value = "";
+    referenceSet2Reps.value = "";
+    referenceSet3Reps.value = "";
+}
+
+
+// ==============================
+// 入力確定フィードバック
+// ==============================
+
+// 入力確定ボタンを押した実感を出す関数
+function showAddButtonFeedback() {
+    referenceAddButton.textContent = "保存しました";
+    referenceAddButton.classList.add("is-saved");
+    referenceAddButton.disabled = true;
+
+    // 対応しているスマホでは軽く振動させる
+    if (navigator.vibrate) {
+        navigator.vibrate(80);
+    }
+
+    // 0.8秒後に元へ戻す
+    setTimeout(() => {
+        referenceAddButton.textContent = "入力を確定する";
+        referenceAddButton.classList.remove("is-saved");
+        referenceAddButton.disabled = false;
+    }, 800);
+}
+
+
+// ==============================
 // ファイル名用の日付文字列を作る
 // ==============================
 
@@ -540,6 +591,12 @@ clearLocalRecordsButton.addEventListener("click", () => {
 
 //参照エリア：入力確定ボタンが押されたときの処理
 referenceAddButton.addEventListener("click", () => {
+
+    // 1セット目の回数が未実施なら保存しない
+    if (!validateTrainingInput()) {
+        return;
+    }
+
     const dateValue = trainingDateInput.value;
     const bodyWeightValue = bodyWeightInput.value === "" ? null : Number(bodyWeightInput.value);
 
@@ -575,6 +632,12 @@ referenceAddButton.addEventListener("click", () => {
     saveLocalTrainingRecords();
 
     showLocalTrainingRecords();
+
+    // 入力確定後、回数だけ未実施に戻す
+    resetRepsInputs();
+
+    // 押した実感を出す
+    showAddButtonFeedback();
 });
 
 
@@ -589,6 +652,9 @@ referenceBodyPartSelect.addEventListener("change", () => {
     updateReferenceExerciseType();
     updateReferenceMemo();
     getReferenceRecordsBySelectedExercise();
+
+    // 部位が変わったら、回数入力を未実施に戻す
+    resetRepsInputs();
 });
 
 
@@ -597,6 +663,9 @@ referenceExerciseSelect.addEventListener("change", () => {
     updateReferenceExerciseType();
     updateReferenceMemo();
     getReferenceRecordsBySelectedExercise();
+
+    // 種目が変わったら、回数入力を未実施に戻す
+    resetRepsInputs();
 });
 
 
