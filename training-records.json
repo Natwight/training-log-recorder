@@ -1,5 +1,117 @@
 ﻿[
   {
+    "id": "rec_20260530_004",
+    "date": "2026-05-30",
+    "part": "legs",
+    "exerciseId": "ex_seated_leg_press",
+    "exercise": "シーテッドレッグプレス",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 60,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 60,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 60,
+        "reps": 12
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "rec_20260530_003",
+    "date": "2026-05-30",
+    "part": "shoulders",
+    "exerciseId": "ex_shoulder_press",
+    "exercise": "ショルダープレス",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 15,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 15,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 15,
+        "reps": 7
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "rec_20260530_002",
+    "date": "2026-05-30",
+    "part": "legs",
+    "exerciseId": "ex_leg_extension",
+    "exercise": "レッグエクステンション",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 30,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 30,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 30,
+        "reps": 12
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "rec_20260530_001",
+    "date": "2026-05-30",
+    "part": "back",
+    "exerciseId": "ex_assisted_pull_up",
+    "exercise": "アシストプルアップ（順手）",
+    "type": "assisted_bodyweight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 35,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 35,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 35,
+        "reps": 8
+      }
+    ],
+    "note": ""
+  },
+  {
     "id": "rec_20260528_005",
     "date": "2026-05-28",
     "part": "legs",
