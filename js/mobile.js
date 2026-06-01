@@ -245,7 +245,8 @@ function getReferenceExerciseType(exerciseId) {
     //アシスト系
     if (
         exerciseId === "ex_assisted_pull_up" ||
-        exerciseId === "ex_assisted_chin_up"
+        exerciseId === "ex_assisted_chin_up" ||
+        exerciseId === "ex_assisted_dips"
     ) {
         return "assisted_bodyweight";
     }

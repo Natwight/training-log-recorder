@@ -1,5 +1,33 @@
 ﻿[
   {
+    "id": "rec_20260601_008",
+    "date": "2026-06-01",
+    "part": "chest",
+    "exerciseId": "ex_assisted_dips",
+    "exercise": "アシストディップス",
+    "type": "assisted_bodyweight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 40,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 40,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 40,
+        "reps": 5
+      }
+    ],
+    "note": ""
+  },
+  {
     "id": "rec_20260601_007",
     "date": "2026-06-01",
     "part": "back",

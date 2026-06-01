@@ -32,6 +32,12 @@ const exercisesByPart = {
             memo: "肘を軽く曲げたまま、胸を開いて閉じる。腕ではなく胸で寄せる意識。"
         },
         {
+            id: "ex_assisted_dips",
+            name: "アシストディップス",
+            tempo: "2-1-2",
+            memo: "体をやや前傾し、胸と腕で押し上げる。肩がすくまないようにし、下ろす時もゆっくり制御する。"
+        },
+        {
             id: "ex_push_up",
             name: "プッシュアップ",
             tempo: "2-1-2",
@@ -134,7 +140,8 @@ const exercisesByPart = {
             id: "ex_hack_squat",
             name: "ハックスクワット",
             tempo: "2-1-2",
-            memo: "背中をパッドにつけ、膝が内側に入らないようにする。太ももで押す意識。"
+            baseWeight: 38.5,
+            memo: "記録重量は追加したプレート重量のみ。マシン自体の初期重量は38.5kg。背中をパッドにつけ、膝が内側に入らないようにする。太ももで押す意識。"
         },
         {
             id: "ex_45deg_leg_press",
