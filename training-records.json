@@ -1,5 +1,201 @@
 ﻿[
   {
+    "id": "rec_20260601_007",
+    "date": "2026-06-01",
+    "part": "back",
+    "exerciseId": "ex_seated_cable_rowing",
+    "exercise": "シーテッドケーブルローイング",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 15,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 15,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 15,
+        "reps": 15
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "rec_20260601_006",
+    "date": "2026-06-01",
+    "part": "legs",
+    "exerciseId": "ex_hack_squat",
+    "exercise": "ハックスクワット",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 38.5,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 38.5,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 38.5,
+        "reps": 12
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "rec_20260601_005",
+    "date": "2026-06-01",
+    "part": "arms",
+    "exerciseId": "ex_cable_curl",
+    "exercise": "ケーブルカール",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 15,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 15,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 15,
+        "reps": 10
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "rec_20260601_004",
+    "date": "2026-06-01",
+    "part": "chest",
+    "exerciseId": "ex_pec_fly",
+    "exercise": "ペックフライ",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 15,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 15,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 15,
+        "reps": 15
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "rec_20260601_003",
+    "date": "2026-06-01",
+    "part": "legs",
+    "exerciseId": "ex_hip_adduction",
+    "exercise": "ヒップアダクション（閉じる）",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 20,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 20,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 20,
+        "reps": 15
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "rec_20260601_002",
+    "date": "2026-06-01",
+    "part": "legs",
+    "exerciseId": "ex_hip_abduction",
+    "exercise": "ヒップアブダクション（開く）",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 25,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 25,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 25,
+        "reps": 15
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "rec_20260601_001",
+    "date": "2026-06-01",
+    "part": "back",
+    "exerciseId": "ex_assisted_pull_up",
+    "exercise": "アシストプルアップ（順手）",
+    "type": "assisted_bodyweight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 35,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 35,
+        "reps": 10
+      },
+      {
+        "set": 3,
+        "weight": 35,
+        "reps": 9
+      }
+    ],
+    "note": ""
+  },
+  {
     "id": "rec_20260530_004",
     "date": "2026-05-30",
     "part": "legs",
