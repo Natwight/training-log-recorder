@@ -1,5 +1,89 @@
 ﻿[
   {
+    "id": "rec_20260602_003",
+    "date": "2026-06-02",
+    "part": "shoulders",
+    "exerciseId": "ex_lateral_raise",
+    "exercise": "ラテラルレイズ",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 10,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 10,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 10,
+        "reps": 8
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "rec_20260602_002",
+    "date": "2026-06-02",
+    "part": "chest",
+    "exerciseId": "ex_assisted_dips",
+    "exercise": "アシストディップス",
+    "type": "assisted_bodyweight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 45,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 45,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 45,
+        "reps": 15
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "rec_20260602_001",
+    "date": "2026-06-02",
+    "part": "back",
+    "exerciseId": "ex_assisted_pull_up",
+    "exercise": "アシストプルアップ（順手）",
+    "type": "assisted_bodyweight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 40,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 40,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 40,
+        "reps": 15
+      }
+    ],
+    "note": ""
+  },
+  {
     "id": "rec_20260601_008",
     "date": "2026-06-01",
     "part": "chest",
