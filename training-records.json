@@ -1,5 +1,173 @@
 ﻿[
   {
+    "id": "rec_20260606_006",
+    "date": "2026-06-06",
+    "part": "legs",
+    "exerciseId": "ex_hip_adduction",
+    "exercise": "ヒップアダクション（閉じる）",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 25,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 25,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 25,
+        "reps": 15
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "rec_20260606_005",
+    "date": "2026-06-06",
+    "part": "legs",
+    "exerciseId": "ex_hip_abduction",
+    "exercise": "ヒップアブダクション（開く）",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 30,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 30,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 30,
+        "reps": 12
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "rec_20260606_004",
+    "date": "2026-06-06",
+    "part": "shoulders",
+    "exerciseId": "ex_shoulder_press",
+    "exercise": "ショルダープレス",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 10,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 10,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 10,
+        "reps": 12
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "rec_20260606_003",
+    "date": "2026-06-06",
+    "part": "legs",
+    "exerciseId": "ex_leg_extension",
+    "exercise": "レッグエクステンション",
+    "type": "weight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 30,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 30,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 30,
+        "reps": 12
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "rec_20260606_002",
+    "date": "2026-06-06",
+    "part": "chest",
+    "exerciseId": "ex_assisted_dips",
+    "exercise": "アシストディップス",
+    "type": "assisted_bodyweight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 40,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 40,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 40,
+        "reps": 12
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "rec_20260606_001",
+    "date": "2026-06-06",
+    "part": "back",
+    "exerciseId": "ex_assisted_pull_up",
+    "exercise": "アシストプルアップ（順手）",
+    "type": "assisted_bodyweight",
+    "unit": "kg",
+    "bodyWeight": 50,
+    "sets": [
+      {
+        "set": 1,
+        "weight": 35,
+        "reps": 12
+      },
+      {
+        "set": 2,
+        "weight": 35,
+        "reps": 12
+      },
+      {
+        "set": 3,
+        "weight": 35,
+        "reps": 10
+      }
+    ],
+    "note": ""
+  },
+  {
     "id": "rec_20260602_003",
     "date": "2026-06-02",
     "part": "shoulders",
