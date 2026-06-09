@@ -546,3 +546,96 @@ button:focus {
   background: var(--danger-bg-color);
   transform: scale(0.98);
 }
+
+/* ==============================
+   v1.1.0 選択日の記録カード
+============================== */
+
+.selected-date-record-card {
+  padding: var(--space-sm);
+  background: var(--sub-color);
+  border: 1px solid var(--border-color);
+  border-left: 0.25rem solid var(--main-color);
+  border-radius: var(--radius-md);
+}
+
+.selected-date-record-title {
+  margin: 0 0 var(--space-xs);
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.selected-date-record-sets {
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--text-color);
+}
+
+.selected-date-record-buttons {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+.danger-button {
+  color: var(--danger-color);
+  background: var(--danger-bg-color);
+  border: 1px solid rgba(248, 113, 113, 0.55);
+}
+
+/* ==============================
+   v1.1.0 選択日の記録
+============================== */
+
+.selected-date-record-sets-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+
+  margin-top: var(--space-sm);
+}
+
+.selected-date-record-set-line {
+  margin: 0;
+  padding: 0.35rem 0.5rem;
+
+  font-size: 0.95rem;
+  line-height: 1.4;
+
+  color: var(--text-color);
+  background: var(--input-bg-color);
+
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+}
+
+
+/* ==============================
+   v1.1.0 編集フォーム
+============================== */
+
+.edit-set-box {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xs);
+
+  margin-top: var(--space-sm);
+  padding: var(--space-sm);
+
+  background: var(--sub-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+.edit-set-box p {
+  margin: 0;
+  font-weight: bold;
+}
+
+.edit-set-box label {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: var(--muted-text-color);
+}

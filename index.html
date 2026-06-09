@@ -5,7 +5,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Training Log Recorder v1.04</title>
+  <title>Training Log Recorder v1.1.0</title>
 
   <!-- mobile用 index.html -->
   <link rel="stylesheet" href="css/common.css">
@@ -16,7 +16,7 @@
 
   <!--バージョン表示-->
   <div class="app-version-box">
-    <p>Training Log App v1.04</p>
+    <p>Training Log App v1.1.0</p>
   </div>
 
   <div class="date-and-body-box">
@@ -160,24 +160,30 @@
 
     <!--実施済み種目-->
     <div class="training-date-records-box">
-      <p class="training-date-records-title">一時保存中の記録</p>
+      <p id="training-date-records-title" class="training-date-records-title">
+        選択日の記録
+      </p>
       <div id="training-date-records-list"></div>
     </div>
 
     <!--全記録JSONダウンロードボタン-->
     <button type="button" id="download-all-records-button">
-    全記録をJSON保存
+      全記録をJSON保存
     </button>
 
-    <button type="button" id="clear-local-records-button">
+    <button type="button" id="reimport-json-button">
+      JSONから再インポート
+    </button>
+
+    <!-- <button type="button" id="clear-local-records-button">
     一時記録を削除
     </button>
-  </div>
-
+  </div> -->
 
 
   <script src="js/data.js"></script>
   <script src="js/storage.js"></script>
+  <script src="js/record-utils.js"></script>
   <script src="js/select-options.js"></script>
   <script src="js/mobile.js"></script>
 </body>

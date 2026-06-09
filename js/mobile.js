@@ -1,232 +1,287 @@
-// ==============================
-// スマホ用 mobile.js
-// 目的：
-// ・過去JSONを参照用として読み込む
-// ・選択種目の直近3回を表示する
-// ・実施した内容をlocalStorageへ一時保存する
-// ・一時保存中の記録を表示・削除する
-// ==============================
+/* ==============================
+   Training Log App v1.1.0
+   mobile.js
+   スマホ画面制御
+============================== */
 
 
-// ==============================
-// 要素の取得
-// ==============================
+/* ==============================
+   DOM取得
+============================== */
 
-//日付入力の<input>を取得
-const trainingDateInput = document.getElementById("training-date");
+const referenceDateInput = document.getElementById("training-date");
+const referenceBodyWeightInput = document.getElementById("body-weight");
 
-//体重入力の<input>を取得
-const bodyWeightInput = document.getElementById("body-weight");
-
-
-//参照エリア：部位選択の<select>を取得
 const referenceBodyPartSelect = document.getElementById("reference-body-part");
-
-//参照エリア：種目選択の<select>を取得
 const referenceExerciseSelect = document.getElementById("reference-exercise");
-
-//参照エリア：タイプ選択の<select>を取得
 const referenceExerciseTypeSelect = document.getElementById("reference-exercise-type");
 
-// 参照エリア：テンポ表示を取得
 const referenceTempoText = document.getElementById("reference-tempo-text");
-
-// 参照エリア：メモ表示を取得
 const referenceMemoText = document.getElementById("reference-memo-text");
 
-//参照エリア：直近3回分の記録を表示するエリアを取得
-const referencePastRecordsGrid = document.getElementById("reference-past-records-grid");
-
-
-//参照エリア：重量選択の<select>を取得
 const referenceSet1Weight = document.getElementById("reference-set1-weight");
-const referenceSet2Weight = document.getElementById("reference-set2-weight");
-const referenceSet3Weight = document.getElementById("reference-set3-weight");
-
-//参照エリア：回数選択の<select>を取得
 const referenceSet1Reps = document.getElementById("reference-set1-reps");
+
+const referenceSet2Weight = document.getElementById("reference-set2-weight");
 const referenceSet2Reps = document.getElementById("reference-set2-reps");
+
+const referenceSet3Weight = document.getElementById("reference-set3-weight");
 const referenceSet3Reps = document.getElementById("reference-set3-reps");
 
+const referencePastRecordsBox = document.getElementById("reference-past-records-grid");
 
-//参照エリア：入力確定ボタンを取得
 const referenceAddButton = document.getElementById("reference-add-button");
 
-//参照エリア：一時保存中の記録を表示するエリアを取得
-const trainingDateRecordsList = document.getElementById("training-date-records-list");
+// v1.1.0では「選択日の記録」欄として使う
+const selectedDateRecordsBox = document.getElementById("training-date-records-list");
 
-// 全記録JSONダウンロードボタン
-const downloadAllRecordsButton = document.getElementById("download-all-records-button");
+const selectedDateRecordsTitle = document.getElementById("training-date-records-title");
 
-//一時記録削除ボタンを取得
-const clearLocalRecordsButton = document.getElementById("clear-local-records-button");
+// 既存HTMLのボタンIDを使用
+const backupJsonButton = document.getElementById("download-all-records-button");
 
-
-
-// ==============================
-// 日付・ID・セット作成系
-// ==============================
-
-//日付に初期値を入れる関数
-function initDate() {
-    const today = new Date();
-
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const date = String(today.getDate()).padStart(2, "0");
-
-    trainingDateInput.value = year + "-" + month + "-" + date;
-}
+// v1.1.0で追加した再インポートボタン
+const reimportJsonButton = document.getElementById("reimport-json-button");
 
 
-//日付からIDを作成する関数
-//例：2026-05-04 の1つ目 → rec_20260504_001
-function createRecordId(dateValue, recordNumber) {
-    const dateText = dateValue.replaceAll("-", "");
-    const numberText = String(recordNumber).padStart(3, "0");
+/* ==============================
+   編集中フラグ
+============================== */
 
-    const recordId = "rec_" + dateText + "_" + numberText;
-
-    return recordId;
-}
+// true のときは、選択日の記録を編集中
+let isEditingRecord = false;
 
 
-//同じ日付の件数から連番を作る関数
-function getRecordNumberByDate(dateValue) {
-    let count = 0;
+/* ==============================
+   初期表示
+============================== */
 
-    localTrainingRecords.forEach((record) => {
-        if (record.date === dateValue) {
-            count++;
-        }
+document.addEventListener("DOMContentLoaded", () => {
+    setTodayDate();
+
+    initializeWeightSelects();
+    initializeRepsSelects();
+
+    updateReferenceExerciseSelect();
+    updateReferenceExerciseType();
+    updateReferenceMemo();
+
+    initializeAppData();
+
+    setEventListeners();
+});
+
+
+/* ==============================
+   イベント登録
+============================== */
+
+function setEventListeners() {
+
+    referenceDateInput.addEventListener("change", () => {
+        // 編集中に日付変更した場合は、編集をキャンセル扱いにする
+        isEditingRecord = false;
+        updateAddButtonState();
+
+        showSelectedDateRecords();
+        getReferenceRecordsBySelectedExercise();
+        resetRepsInputs();
     });
 
-    return count + 1;
-}
+    referenceBodyPartSelect.addEventListener("change", () => {
+        updateReferenceExerciseSelect();
+        updateReferenceExerciseType();
+        updateReferenceMemo();
+        getReferenceRecordsBySelectedExercise();
+        resetRepsInputs();
+    });
 
+    referenceExerciseSelect.addEventListener("change", () => {
+        updateReferenceExerciseType();
+        updateReferenceMemo();
+        getReferenceRecordsBySelectedExercise();
+        resetRepsInputs();
+    });
 
-//1セット分のデータを作る関数
-//回数が未実施の場合は weight と reps に null を入れる
-function createSetData(setNumber, weightSelect, repsSelect) {
+    referenceSet1Weight.addEventListener("change", () => {
+        referenceSet2Weight.value = referenceSet1Weight.value;
+        referenceSet3Weight.value = referenceSet1Weight.value;
+    });
 
-    if (repsSelect.value === "") {
-        return {
-            set: setNumber,
-            weight: null,
-            reps: null
-        };
+    referenceAddButton.addEventListener("click", () => {
+        addTrainingRecord();
+    });
+
+    if (backupJsonButton) {
+        backupJsonButton.addEventListener("click", () => {
+            downloadBackupJson();
+        });
     }
 
-    return {
-        set: setNumber,
-        weight: Number(weightSelect.value),
-        reps: Number(repsSelect.value)
-    };
-}
-
-
-// ==============================
-// 入力チェック
-// ==============================
-
-// 1セット目の回数が入力されているか確認する関数
-function validateTrainingInput() {
-    if (referenceSet1Reps.value === "") {
-        alert("1セット目の回数を入力してください。");
-        return false;
+    if (reimportJsonButton) {
+        reimportJsonButton.addEventListener("click", () => {
+            reimportFromJson();
+        });
     }
-
-    return true;
 }
 
 
-// ==============================
-// 入力欄リセット
-// ==============================
+/* ==============================
+   今日の日付をセット
+============================== */
 
-// 回数入力だけを未実施に戻す関数
-function resetRepsInputs() {
-    referenceSet1Reps.value = "";
-    referenceSet2Reps.value = "";
-    referenceSet3Reps.value = "";
-}
-
-
-// ==============================
-// 入力確定フィードバック
-// ==============================
-
-// 入力確定ボタンを押した実感を出す関数
-function showAddButtonFeedback() {
-    referenceAddButton.textContent = "保存しました";
-    referenceAddButton.classList.add("is-saved");
-    referenceAddButton.disabled = true;
-
-    // 対応しているスマホでは軽く振動させる
-    if (navigator.vibrate) {
-        navigator.vibrate(80);
-    }
-
-    // 0.8秒後に元へ戻す
-    setTimeout(() => {
-        referenceAddButton.textContent = "入力を確定する";
-        referenceAddButton.classList.remove("is-saved");
-        referenceAddButton.disabled = false;
-    }, 800);
-}
-
-
-// ==============================
-// ファイル名用の日付文字列を作る
-// ==============================
-
-// 例：2026-05-10
-function createTodayTextForFileName() {
+function setTodayDate() {
     const today = new Date();
 
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, "0");
     const date = String(today.getDate()).padStart(2, "0");
 
-    return year + "-" + month + "-" + date;
+    referenceDateInput.value = `${year}-${month}-${date}`;
 }
 
 
-// ==============================
-// 参照用JSON読み込み
-// ==============================
+/* ==============================
+   重量セレクト初期化
+============================== */
 
-//スマホ用：参照用JSONファイルを読み込む関数
-function loadMobileReferenceJsonFile() {
-    fetch("training-records.json")
-        .then((response) => {
-            return response.json();
-        })
-        .then((loadedRecords) => {
-            //読み込んだ過去記録を参照用配列へ入れる
-            setReferenceRecords(loadedRecords);
+function initializeWeightSelects() {
+    const weightSelects = [
+        referenceSet1Weight,
+        referenceSet2Weight,
+        referenceSet3Weight
+    ];
 
-            //参照エリアの直近3回表示を更新する
-            getReferenceRecordsBySelectedExercise();
-        })
-        .catch((error) => {
-            console.log("参照用JSONの読み込みに失敗しました。");
-            console.log(error);
-        });
+    weightSelects.forEach((select) => {
+        select.innerHTML = "";
+
+        for (let weight = 0; weight <= 100; weight += 0.5) {
+            const option = document.createElement("option");
+
+            option.value = weight.toFixed(1);
+            option.textContent = weight.toFixed(1) + "kg";
+
+            select.appendChild(option);
+        }
+    });
 }
 
 
+/* ==============================
+   回数セレクト初期化
+============================== */
 
-// ==============================
-// 参照エリア：部位・種目・タイプ
-// ==============================
+function initializeRepsSelects() {
+    const repsSelects = [
+        referenceSet1Reps,
+        referenceSet2Reps,
+        referenceSet3Reps
+    ];
 
-//参照エリア：種目<select>の中身を更新する関数
+    repsSelects.forEach((select) => {
+        select.innerHTML = "";
+
+        const emptyOption = document.createElement("option");
+        emptyOption.value = "";
+        emptyOption.textContent = "未実施";
+        select.appendChild(emptyOption);
+
+        for (let reps = 1; reps <= 50; reps++) {
+            const option = document.createElement("option");
+
+            option.value = reps;
+            option.textContent = reps + "回";
+
+            select.appendChild(option);
+        }
+    });
+}
+
+
+/* ==============================
+   アプリデータ初期化
+============================== */
+
+async function initializeAppData() {
+
+    // まず localStorage から appRecords を読み込む
+    const hasLocalRecords = loadAppRecords();
+
+    // meta は無くても致命的ではないため、別で読み込む
+    loadAppMeta();
+
+    // localStorage に記録がある場合は、それを本体データとして使う
+    if (hasLocalRecords) {
+        sortAppRecordsLatestFirst();
+        saveAppData();
+
+        showSelectedDateRecords();
+        getReferenceRecordsBySelectedExercise();
+
+        return;
+    }
+
+    // localStorage に記録がない場合だけ、JSONを初回インポート
+    await importInitialRecordsFromJson();
+}
+
+
+/* ==============================
+   初回のみ training-records.json を読み込む
+============================== */
+
+async function importInitialRecordsFromJson() {
+    try {
+        const response = await fetch("training-records-v1.1.0.json");
+
+        if (!response.ok) {
+            alert("training-records.json の読み込みに失敗しました。");
+            return;
+        }
+
+        const jsonData = await response.json();
+
+        const imported = importRecordsFromJson(jsonData);
+
+        if (!imported) {
+            return;
+        }
+
+        sortAppRecordsLatestFirst();
+        saveAppData();
+
+        showSelectedDateRecords();
+        getReferenceRecordsBySelectedExercise();
+
+    } catch (error) {
+        console.error("初回インポートに失敗しました。", error);
+        alert("初回データの読み込みに失敗しました。");
+    }
+}
+
+
+/* ==============================
+   data.js から部位別の種目一覧を取得
+============================== */
+
+function getExerciseListByPart(partValue) {
+    if (!exercisesByPart || !exercisesByPart[partValue]) {
+        return [];
+    }
+
+    return exercisesByPart[partValue];
+}
+
+
+/* ==============================
+   種目セレクト更新
+============================== */
+
 function updateReferenceExerciseSelect() {
-    referenceExerciseSelect.innerHTML = "";
-
     const selectedPart = referenceBodyPartSelect.value;
-    const exerciseList = exercisesByPart[selectedPart];
+    const exerciseList = getExerciseListByPart(selectedPart);
+
+    referenceExerciseSelect.innerHTML = "";
 
     exerciseList.forEach((exercise) => {
         const option = document.createElement("option");
@@ -239,10 +294,28 @@ function updateReferenceExerciseSelect() {
 }
 
 
-//参照エリア：種目IDからタイプを判定する関数
+/* ==============================
+   選択中の種目データを取得
+============================== */
+
+function getSelectedExerciseData() {
+    const selectedPart = referenceBodyPartSelect.value;
+    const selectedExerciseId = referenceExerciseSelect.value;
+
+    const exerciseList = getExerciseListByPart(selectedPart);
+
+    return exerciseList.find((exercise) => {
+        return exercise.id === selectedExerciseId;
+    });
+}
+
+
+/* ==============================
+   種目タイプ判定
+============================== */
+
 function getReferenceExerciseType(exerciseId) {
 
-    //アシスト系
     if (
         exerciseId === "ex_assisted_pull_up" ||
         exerciseId === "ex_assisted_chin_up" ||
@@ -251,7 +324,6 @@ function getReferenceExerciseType(exerciseId) {
         return "assisted_bodyweight";
     }
 
-    //自重系
     if (
         exerciseId === "ex_push_up" ||
         exerciseId === "ex_squat" ||
@@ -260,37 +332,26 @@ function getReferenceExerciseType(exerciseId) {
         return "bodyweight";
     }
 
-    //それ以外はウェイト系
     return "weight";
 }
 
 
-//参照エリア：選択中の種目に合わせてタイプを更新する関数
+/* ==============================
+   タイプ表示更新
+============================== */
+
 function updateReferenceExerciseType() {
     const selectedExerciseId = referenceExerciseSelect.value;
-
     const exerciseType = getReferenceExerciseType(selectedExerciseId);
 
     referenceExerciseTypeSelect.value = exerciseType;
 }
 
 
-// 参照エリア：選択中の種目データを取得する関数
-function getSelectedExerciseData() {
-    const selectedPart = referenceBodyPartSelect.value;
-    const selectedExerciseId = referenceExerciseSelect.value;
+/* ==============================
+   種目メモ更新
+============================== */
 
-    const exerciseList = exercisesByPart[selectedPart];
-
-    const selectedExercise = exerciseList.find((exercise) => {
-        return exercise.id === selectedExerciseId;
-    });
-
-    return selectedExercise;
-}
-
-
-// 参照エリア：テンポとメモを表示する関数
 function updateReferenceMemo() {
     const selectedExercise = getSelectedExerciseData();
 
@@ -300,320 +361,250 @@ function updateReferenceMemo() {
         return;
     }
 
-    if (selectedExercise.tempo) {
-        referenceTempoText.textContent =
-            "テンポ：" + selectedExercise.tempo + "（動作・保持・制御）";
-    } else {
-        referenceTempoText.textContent = "テンポ：-";
-    }
-
-    if (selectedExercise.memo) {
-        referenceMemoText.textContent = selectedExercise.memo;
-    } else {
-        referenceMemoText.textContent = "-";
-    }
+    referenceTempoText.textContent = "テンポ：" + (selectedExercise.tempo || "-");
+    referenceMemoText.textContent = selectedExercise.memo || "-";
 }
 
 
-// ==============================
-// 参照エリア：直近3回表示
-// ==============================
+/* ==============================
+   選択中の種目の過去3回を表示
+============================== */
 
-//参照エリア：選択中の種目IDと同じ記録だけを取り出す関数
 function getReferenceRecordsBySelectedExercise() {
     const selectedExerciseId = referenceExerciseSelect.value;
+    const selectedDate = referenceDateInput.value;
 
-    const selectedExerciseRecords = referenceRecords.filter((record) => {
-        return record.exerciseId === selectedExerciseId;
-    });
+    if (!selectedExerciseId || !selectedDate) {
+        showReferencePastRecords([]);
+        return;
+    }
 
-    selectedExerciseRecords.sort((a, b) => {
-        return new Date(b.date) - new Date(a.date);
-    });
+    const pastThreeRecords = getPastThreeRecordsByExercise(
+        selectedExerciseId,
+        selectedDate
+    );
 
-    const recentThreeRecords = selectedExerciseRecords.slice(0, 3);
+    showReferencePastRecords(pastThreeRecords);
 
-    showReferencePastRecords(recentThreeRecords);
-
-    // 最新記録の重量を入力欄へ反映する
-    setLatestWeightFromRecentRecords(recentThreeRecords);
+    setLatestWeightFromRecentRecords(pastThreeRecords);
 }
 
 
-//参照エリア：直近3件の記録を表示する関数
+/* ==============================
+   直近3回表示
+   右側が最新になるように表示
+============================== */
+
 function showReferencePastRecords(records) {
-    const displayRecords = [...records].reverse();
+    referencePastRecordsBox.innerHTML = "";
 
-    //3件未満の場合は、左側に空データを追加して3列にそろえる
-    while (displayRecords.length < 3) {
-        displayRecords.unshift(null);
-    }
+    // getPastThreeRecordsByExercise() は最新順で返す
+    // 表示は左から「3回前・2回前・最新」にする
+    const displayRecords = [
+        records[2],
+        records[1],
+        records[0]
+    ];
 
-    referencePastRecordsGrid.innerHTML = "";
+    // 1行目：日付行
+    appendPastRecordCell("");
+    appendPastRecordCell(getPastRecordDateText(displayRecords[0]));
+    appendPastRecordCell(getPastRecordDateText(displayRecords[1]));
+    appendPastRecordCell(getPastRecordDateText(displayRecords[2]));
 
-    //1行目：日付行
-    referencePastRecordsGrid.innerHTML += "<div></div>";
+    // 2行目：1set
+    appendPastRecordCell("1set");
+    appendPastRecordCell(getPastRecordSetText(displayRecords[0], 1));
+    appendPastRecordCell(getPastRecordSetText(displayRecords[1], 1));
+    appendPastRecordCell(getPastRecordSetText(displayRecords[2], 1));
 
-    displayRecords.forEach((record) => {
-        if (record === null) {
-            referencePastRecordsGrid.innerHTML += "<div>-</div>";
-        } else {
-            const dateText = record.date.slice(5).replace("-", "/");
-            referencePastRecordsGrid.innerHTML += `<div>${dateText}</div>`;
-        }
-    });
+    // 3行目：2set
+    appendPastRecordCell("2set");
+    appendPastRecordCell(getPastRecordSetText(displayRecords[0], 2));
+    appendPastRecordCell(getPastRecordSetText(displayRecords[1], 2));
+    appendPastRecordCell(getPastRecordSetText(displayRecords[2], 2));
 
-    //1set〜3setの行を作る
-    for (let setNumber = 1; setNumber <= 3; setNumber++) {
-        referencePastRecordsGrid.innerHTML += `<div>${setNumber}set</div>`;
-
-        displayRecords.forEach((record) => {
-            if (record === null) {
-                referencePastRecordsGrid.innerHTML += "<div>-</div>";
-                return;
-            }
-
-            const setData = record.sets[setNumber - 1];
-
-            if (setData.weight === null || setData.reps === null) {
-                referencePastRecordsGrid.innerHTML += "<div>-</div>";
-            } else {
-                const setText = setData.weight + "×" + setData.reps;
-                referencePastRecordsGrid.innerHTML += `<div>${setText}</div>`;
-            }
-        });
-    }
+    // 4行目：3set
+    appendPastRecordCell("3set");
+    appendPastRecordCell(getPastRecordSetText(displayRecords[0], 3));
+    appendPastRecordCell(getPastRecordSetText(displayRecords[1], 3));
+    appendPastRecordCell(getPastRecordSetText(displayRecords[2], 3));
 }
 
 
-// ==============================
-// 参照エリア：最新記録の重量を入力欄へ反映
-// ==============================
+/* ==============================
+   直近3回グリッドのセルを追加する関数
+============================== */
 
-// 直近記録の中から、最新記録の1セット目重量を入力欄へ入れる関数
+function appendPastRecordCell(text) {
+    const cell = document.createElement("div");
+    cell.textContent = text;
+    referencePastRecordsBox.appendChild(cell);
+}
+
+
+/* ==============================
+   直近記録の日付表示を作る関数
+============================== */
+
+function getPastRecordDateText(record) {
+    if (!record) {
+        return "-";
+    }
+
+    return record.date;
+}
+
+
+/* ==============================
+   指定セットの重量・回数表示を作る関数
+============================== */
+
+function getPastRecordSetText(record, setNumber) {
+    if (!record || !record.sets) {
+        return "-";
+    }
+
+    const targetSet = record.sets.find((set) => {
+        return set.set === setNumber;
+    });
+
+    if (!targetSet) {
+        return "-";
+    }
+
+    return `${targetSet.weight}kg/${targetSet.reps}回`;
+}
+
+
+/* ==============================
+   セット表示文字列を作る
+============================== */
+
+function createSetsDisplayText(sets) {
+    if (!sets || sets.length === 0) {
+        return "-";
+    }
+
+    return sets.map((set) => {
+        return `${set.set}set ${set.weight}kg × ${set.reps}回`;
+    }).join(" / ");
+}
+
+
+/* ==============================
+   過去記録の最新重量を入力欄へ反映
+============================== */
+
 function setLatestWeightFromRecentRecords(recentRecords) {
 
-    // 直近記録がない場合は何もしない
     if (recentRecords.length === 0) {
         return;
     }
 
-    // recentRecords は新しい順なので、0番目が最新記録
     const latestRecord = recentRecords[0];
 
-    // 最新記録にsetsがない場合は何もしない
     if (!latestRecord.sets || latestRecord.sets.length === 0) {
         return;
     }
 
-    // 最新記録の1セット目を取り出す
     const firstSet = latestRecord.sets[0];
 
-    // 1セット目の重量がない場合は何もしない
-    if (firstSet.weight === null) {
+    if (firstSet.weight === null || firstSet.weight === undefined) {
         return;
     }
 
-    // selectのvalueに合わせるため、小数1桁の文字列にする
-    const latestWeightText = Number(firstSet.weight).toFixed(1);
-
-    // 1セット目に最新重量を入れる
-    referenceSet1Weight.value = latestWeightText;
-
-    // 2セット目・3セット目にも同じ重量を入れる
-    referenceSet2Weight.value = latestWeightText;
-    referenceSet3Weight.value = latestWeightText;
+    setWeightInputs(firstSet.weight);
 }
 
 
-// ==============================
-// localStorage：一時保存中の記録表示
-// ==============================
+/* ==============================
+   1〜3セット目の重量をまとめて設定
+============================== */
 
-//localStorageに残っている一時記録をすべて表示する関数
-function showLocalTrainingRecords() {
+function setWeightInputs(weightValue) {
+    const weightText = Number(weightValue).toFixed(1);
 
-    trainingDateRecordsList.innerHTML = "";
-
-    if (localTrainingRecords.length === 0) {
-        trainingDateRecordsList.innerHTML = "<p>未移行の記録はありません</p>";
-        return;
-    }
-
-    // localTrainingRecords はJSON保存用に新しい順で保持する。
-    // 画面では実施順に見たいので、表示用だけ古い順にする。
-    const displayRecords = [...localTrainingRecords].reverse();
-
-    displayRecords.forEach((record) => {
-        const recordBox = document.createElement("div");
-        recordBox.classList.add("training-date-record-item");
-
-        const setTexts = record.sets.map((setData) => {
-            if (setData.weight === null || setData.reps === null) {
-                return "-";
-            }
-
-            return setData.weight + "kg × " + setData.reps + "回";
-        });
-
-        recordBox.innerHTML = `
-            <div class="local-record-header">
-                <p><strong>${record.date} ${record.exercise}</strong></p>
-
-                <button
-                    type="button"
-                    class="delete-local-record-button"
-                    data-record-id="${record.id}"
-                >
-                    削除
-                </button>
-            </div>
-
-            <p>1set：${setTexts[0]}</p>
-            <p>2set：${setTexts[1]}</p>
-            <p>3set：${setTexts[2]}</p>
-        `;
-
-        trainingDateRecordsList.appendChild(recordBox);
-    });
+    referenceSet1Weight.value = weightText;
+    referenceSet2Weight.value = weightText;
+    referenceSet3Weight.value = weightText;
 }
 
 
-// ==============================
-// localStorage：一時記録の1件削除
-// ==============================
+/* ==============================
+   回数入力を未実施へ戻す
+============================== */
 
-//一時保存中の記録を1件削除する関数
-function deleteLocalTrainingRecord(recordId) {
-    const result = confirm("この記録を削除しますか？");
-
-    if (!result) {
-        return;
-    }
-
-    localTrainingRecords = localTrainingRecords.filter((record) => {
-        return record.id !== recordId;
-    });
-
-    saveLocalTrainingRecords();
-
-    showLocalTrainingRecords();
+function resetRepsInputs() {
+    referenceSet1Reps.value = "";
+    referenceSet2Reps.value = "";
+    referenceSet3Reps.value = "";
 }
 
 
-//一時保存中の記録エリア内でクリックされたときの処理
-trainingDateRecordsList.addEventListener("click", (event) => {
+/* ==============================
+   入力チェック
+============================== */
 
-    if (!event.target.classList.contains("delete-local-record-button")) {
+function validateTrainingInput() {
+    if (referenceSet1Reps.value === "") {
+        alert("1セット目の回数を入力してください。");
+        return false;
+    }
+
+    return true;
+}
+
+
+/* ==============================
+   編集中の入力確定ボタン制御
+============================== */
+
+function updateAddButtonState() {
+    if (isEditingRecord) {
+        referenceAddButton.disabled = true;
+        referenceAddButton.textContent = "編集中は追加できません";
         return;
     }
 
-    const recordId = event.target.dataset.recordId;
+    referenceAddButton.disabled = false;
+    referenceAddButton.textContent = "入力を確定する";
+}
 
-    deleteLocalTrainingRecord(recordId);
-});
 
+/* ==============================
+   入力確定
+============================== */
 
-// ==============================
-// 全記録JSONダウンロード
-// ==============================
-
-downloadAllRecordsButton.addEventListener("click", () => {
-
-    // localTrainingRecords と referenceRecords をまとめる
-    const allRecords = [
-        ...localTrainingRecords,
-        ...referenceRecords
-    ];
-
-    // 記録が1件もない場合
-    if (allRecords.length === 0) {
-        alert("保存できる記録がありません。");
+function addTrainingRecord() {
+    if (isEditingRecord) {
+        alert("編集中の記録があります。編集完了またはキャンセルしてから入力してください。");
         return;
     }
 
-    // JSON文字列にする
-    const jsonText = JSON.stringify(allRecords, null, 2);
-
-    // UTF-8として認識されやすくするため、先頭にBOMを付ける
-    const bom = "\uFEFF";
-
-    // JSON文字列をファイルのように扱えるデータにする
-    const blob = new Blob([bom + jsonText], {
-        type: "application/json;charset=utf-8"
-    });
-
-    // そのファイルデータに一時的なURLを作成する
-    const url = URL.createObjectURL(blob);
-
-    // ダウンロード用の<a>要素を作る
-    const link = document.createElement("a");
-
-    link.href = url;
-
-    // 今日の日付入りファイル名
-    const todayText = createTodayTextForFileName();
-
-    link.download = "training-records-backup-" + todayText + ".json";
-
-    // ダウンロードを実行する
-    link.click();
-
-    // 一時的なURLを解放する
-    URL.revokeObjectURL(url);
-});
-
-
-// ==============================
-// localStorage：一時記録の全削除
-// ==============================
-
-//一時記録削除ボタンが押されたときの処理
-clearLocalRecordsButton.addEventListener("click", () => {
-
-    const result = confirm("スマホ内の一時記録をすべて削除しますか？");
-
-    if (!result) {
-        return;
-    }
-
-    localTrainingRecords = [];
-
-    saveLocalTrainingRecords();
-
-    showLocalTrainingRecords();
-});
-
-
-
-// ==============================
-// 入力確定処理
-// ==============================
-
-//参照エリア：入力確定ボタンが押されたときの処理
-referenceAddButton.addEventListener("click", () => {
-
-    // 1セット目の回数が未実施なら保存しない
     if (!validateTrainingInput()) {
         return;
     }
 
-    const dateValue = trainingDateInput.value;
-    const bodyWeightValue = bodyWeightInput.value === "" ? null : Number(bodyWeightInput.value);
+    const dateValue = referenceDateInput.value;
+    const bodyWeightValue = Number(referenceBodyWeightInput.value);
 
     const partValue = referenceBodyPartSelect.value;
     const exerciseIdValue = referenceExerciseSelect.value;
+
+    const selectedExercise = getSelectedExerciseData();
+
+    if (!selectedExercise) {
+        alert("種目が選択されていません。");
+        return;
+    }
+
+    const exerciseName = selectedExercise.name;
     const exerciseTypeValue = referenceExerciseTypeSelect.value;
-    const exerciseName = referenceExerciseSelect.options[referenceExerciseSelect.selectedIndex].textContent;
 
-    const sets = [
-        createSetData(1, referenceSet1Weight, referenceSet1Reps),
-        createSetData(2, referenceSet2Weight, referenceSet2Reps),
-        createSetData(3, referenceSet3Weight, referenceSet3Reps)
-    ];
+    const recordId = getNextRecordIdByDate(dateValue);
 
-    const recordNumber = getRecordNumberByDate(dateValue);
-    const recordId = createRecordId(dateValue, recordNumber);
+    const sets = createInputSets();
 
     const trainingRecord = {
         id: recordId,
@@ -628,87 +619,499 @@ referenceAddButton.addEventListener("click", () => {
         note: ""
     };
 
-    localTrainingRecords.unshift(trainingRecord);
+    appRecords.push(trainingRecord);
 
-    saveLocalTrainingRecords();
+    sortAppRecordsLatestFirst();
 
-    showLocalTrainingRecords();
+    saveAppDataWithUpdateTime();
 
-    // 入力確定後、回数だけ未実施に戻す
+    showSelectedDateRecords();
+    getReferenceRecordsBySelectedExercise();
+
     resetRepsInputs();
 
-    // 押した実感を出す
     showAddButtonFeedback();
-});
+}
 
 
+/* ==============================
+   入力欄からセット配列を作る
+============================== */
 
-// ==============================
-// イベント設定
-// ==============================
+function createInputSets() {
+    const sets = [];
 
-//参照エリア：部位が変更されたときに種目リスト・タイプ・直近3回表示を更新する
-referenceBodyPartSelect.addEventListener("change", () => {
-    updateReferenceExerciseSelect();
-    updateReferenceExerciseType();
-    updateReferenceMemo();
+    if (referenceSet1Reps.value !== "") {
+        sets.push({
+            set: 1,
+            weight: Number(referenceSet1Weight.value),
+            reps: Number(referenceSet1Reps.value)
+        });
+    }
+
+    if (referenceSet2Reps.value !== "") {
+        sets.push({
+            set: 2,
+            weight: Number(referenceSet2Weight.value),
+            reps: Number(referenceSet2Reps.value)
+        });
+    }
+
+    if (referenceSet3Reps.value !== "") {
+        sets.push({
+            set: 3,
+            weight: Number(referenceSet3Weight.value),
+            reps: Number(referenceSet3Reps.value)
+        });
+    }
+
+    return sets;
+}
+
+
+/* ==============================
+   保存ボタンのフィードバック
+============================== */
+
+function showAddButtonFeedback() {
+    referenceAddButton.textContent = "保存しました";
+    referenceAddButton.classList.add("is-saved");
+    referenceAddButton.disabled = true;
+
+    if (navigator.vibrate) {
+        navigator.vibrate(80);
+    }
+
+    setTimeout(() => {
+        referenceAddButton.textContent = "入力を確定する";
+        referenceAddButton.classList.remove("is-saved");
+        referenceAddButton.disabled = false;
+    }, 800);
+}
+
+
+/* ==============================
+   選択日の記録を表示
+============================== */
+
+function showSelectedDateRecords() {
+    updateSelectedDateRecordsTitle();
+
+    const selectedDate = referenceDateInput.value;
+    const selectedDateRecords = getSelectedDateRecords(selectedDate);
+
+    selectedDateRecordsBox.innerHTML = "";
+
+    if (selectedDateRecords.length === 0) {
+        const emptyText = document.createElement("p");
+        emptyText.textContent = "この日付の記録はありません。";
+        selectedDateRecordsBox.appendChild(emptyText);
+        return;
+    }
+
+    selectedDateRecords.forEach((record) => {
+        const recordCard = createSelectedDateRecordCard(record);
+        selectedDateRecordsBox.appendChild(recordCard);
+    });
+}
+
+
+/* ==============================
+   選択日の記録タイトルを更新
+============================== */
+
+function updateSelectedDateRecordsTitle() {
+    const selectedDate = referenceDateInput.value;
+
+    if (!selectedDate) {
+        selectedDateRecordsTitle.textContent = "選択日の記録";
+        return;
+    }
+
+    selectedDateRecordsTitle.textContent = `${selectedDate} の記録`;
+}
+
+
+/* ==============================
+   選択日の記録カードを作る
+============================== */
+
+function createSelectedDateRecordCard(record) {
+    const card = document.createElement("div");
+    card.classList.add("selected-date-record-card");
+
+    const title = document.createElement("p");
+    title.classList.add("selected-date-record-title");
+    title.textContent = record.exercise;
+
+    const setsBox = document.createElement("div");
+    setsBox.classList.add("selected-date-record-sets-box");
+
+    record.sets.forEach((set) => {
+        const setLine = createSelectedDateSetLine(set);
+        setsBox.appendChild(setLine);
+    });
+
+    const buttonBox = document.createElement("div");
+    buttonBox.classList.add("selected-date-record-buttons");
+
+    const editButton = document.createElement("button");
+    editButton.type = "button";
+    editButton.textContent = "編集";
+    editButton.addEventListener("click", () => {
+        showEditRecordForm(record.id);
+    });
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.textContent = "削除";
+    deleteButton.classList.add("danger-button");
+    deleteButton.addEventListener("click", () => {
+        deleteSelectedDateRecord(record.id);
+    });
+
+    buttonBox.appendChild(editButton);
+    buttonBox.appendChild(deleteButton);
+
+    card.appendChild(title);
+    card.appendChild(setsBox);
+    card.appendChild(buttonBox);
+
+    return card;
+}
+
+
+/* ==============================
+   選択日の記録カード内の
+   セット表示を作る関数
+============================== */
+
+function createSelectedDateSetLine(set) {
+    const setLine = document.createElement("p");
+    setLine.classList.add("selected-date-record-set-line");
+
+    setLine.textContent = `${set.set}set：${set.weight}kg × ${set.reps}回`;
+
+    return setLine;
+}
+
+
+/* ==============================
+   編集フォームを表示
+   編集対象：重量・回数のみ
+============================== */
+
+function showEditRecordForm(recordId) {
+    const record = findRecordById(recordId);
+
+    if (!record) {
+        alert("編集対象の記録が見つかりません。");
+        return;
+    }
+
+    // 編集中にする
+    isEditingRecord = true;
+    updateAddButtonState();
+
+    selectedDateRecordsBox.innerHTML = "";
+
+    const formBox = document.createElement("div");
+    formBox.classList.add("edit-record-box");
+
+    const title = document.createElement("h3");
+    title.textContent = record.exercise + " の編集";
+
+    formBox.appendChild(title);
+
+    record.sets.forEach((set) => {
+        const setBox = document.createElement("div");
+        setBox.classList.add("edit-set-box");
+
+        const setTitle = document.createElement("p");
+        setTitle.textContent = set.set + "セット目";
+
+        const weightLabel = document.createElement("label");
+        weightLabel.textContent = "重量";
+
+        const weightSelect = createEditWeightSelect(set);
+
+        const repsLabel = document.createElement("label");
+        repsLabel.textContent = "回数";
+
+        const repsSelect = createEditRepsSelect(set);
+
+        setBox.appendChild(setTitle);
+        setBox.appendChild(weightLabel);
+        setBox.appendChild(weightSelect);
+        setBox.appendChild(repsLabel);
+        setBox.appendChild(repsSelect);
+
+        formBox.appendChild(setBox);
+    });
+
+    const buttonBox = document.createElement("div");
+    buttonBox.classList.add("edit-record-buttons");
+
+    const saveButton = document.createElement("button");
+    saveButton.type = "button";
+    saveButton.textContent = "編集完了";
+    saveButton.addEventListener("click", () => {
+        saveEditedRecord(recordId);
+    });
+
+    const cancelButton = document.createElement("button");
+    cancelButton.type = "button";
+    cancelButton.textContent = "キャンセル";
+    cancelButton.addEventListener("click", () => {
+        isEditingRecord = false;
+        updateAddButtonState();
+
+        showSelectedDateRecords();
+    });
+
+    buttonBox.appendChild(saveButton);
+    buttonBox.appendChild(cancelButton);
+
+    formBox.appendChild(buttonBox);
+
+    selectedDateRecordsBox.appendChild(formBox);
+}
+
+
+/* ==============================
+   編集用の重量セレクトを作る関数
+   0.5kg刻みのみ選択可能
+============================== */
+
+function createEditWeightSelect(set) {
+    const select = document.createElement("select");
+
+    select.dataset.setNumber = set.set;
+    select.dataset.inputType = "weight";
+
+    for (let weight = 0; weight <= 100; weight += 0.5) {
+        const option = document.createElement("option");
+
+        option.value = weight.toFixed(1);
+        option.textContent = weight.toFixed(1) + "kg";
+
+        if (Number(set.weight) === Number(weight.toFixed(1))) {
+            option.selected = true;
+        }
+
+        select.appendChild(option);
+    }
+
+    return select;
+}
+
+
+/* ==============================
+   編集用の回数セレクトを作る関数
+============================== */
+
+function createEditRepsSelect(set) {
+    const select = document.createElement("select");
+
+    select.dataset.setNumber = set.set;
+    select.dataset.inputType = "reps";
+
+    for (let reps = 1; reps <= 50; reps++) {
+        const option = document.createElement("option");
+
+        option.value = reps;
+        option.textContent = reps + "回";
+
+        if (Number(set.reps) === reps) {
+            option.selected = true;
+        }
+
+        select.appendChild(option);
+    }
+
+    return select;
+}
+
+
+/* ==============================
+   編集内容を保存
+   保存対象：重量・回数のみ
+============================== */
+
+function saveEditedRecord(recordId) {
+    const record = findRecordById(recordId);
+
+    if (!record) {
+        alert("編集対象の記録が見つかりません。");
+        return;
+    }
+
+    const editInputs = selectedDateRecordsBox.querySelectorAll("select");
+
+    editInputs.forEach((input) => {
+        const setNumber = Number(input.dataset.setNumber);
+        const inputType = input.dataset.inputType;
+
+        const targetSet = record.sets.find((set) => {
+            return set.set === setNumber;
+        });
+
+        if (!targetSet) {
+            return;
+        }
+
+        if (inputType === "weight") {
+            targetSet.weight = Number(input.value);
+        }
+
+        if (inputType === "reps") {
+            targetSet.reps = Number(input.value);
+        }
+    });
+
+    sortAppRecordsLatestFirst();
+
+    saveAppDataWithUpdateTime();
+
+    // 編集中を解除
+    isEditingRecord = false;
+    updateAddButtonState();
+
+    showSelectedDateRecords();
     getReferenceRecordsBySelectedExercise();
-
-    // 部位が変わったら、回数入力を未実施に戻す
-    resetRepsInputs();
-});
+}
 
 
-//参照エリア：種目が変更されたときにタイプ・直近3回表示を更新する
-referenceExerciseSelect.addEventListener("change", () => {
-    updateReferenceExerciseType();
-    updateReferenceMemo();
+/* ==============================
+   選択日の記録を削除
+============================== */
+
+function deleteSelectedDateRecord(recordId) {
+    const confirmed = confirm(
+        "この記録を削除します。\n削除後はスマホ内データから消えます。\nよろしいですか？"
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    const deleted = deleteRecordById(recordId);
+
+    if (!deleted) {
+        alert("削除対象の記録が見つかりません。");
+        return;
+    }
+
+    showSelectedDateRecords();
     getReferenceRecordsBySelectedExercise();
-
-    // 種目が変わったら、回数入力を未実施に戻す
-    resetRepsInputs();
-});
+}
 
 
-//参照エリア：1セット目の重量が変更されたら、2セット目と3セット目にも同じ重量を入れる
-referenceSet1Weight.addEventListener("change", () => {
-    referenceSet2Weight.value = referenceSet1Weight.value;
-    referenceSet3Weight.value = referenceSet1Weight.value;
-});
+/* ==============================
+   バックアップJSON保存
+============================== */
+
+function downloadBackupJson() {
+    sortAppRecordsLatestFirst();
+
+    const exportedAt = getCurrentDateTimeText();
+
+    const backupData = {
+        meta: {
+            appVersion: appMeta.appVersion || "1.1.0",
+            dataVersion: appMeta.dataVersion || "1.1.0",
+            updatedAt: appMeta.updatedAt || "",
+            exportedAt: exportedAt
+        },
+        records: appRecords
+    };
+
+    const jsonText = JSON.stringify(backupData, null, 2);
+
+    const bom = "\uFEFF";
+
+    const blob = new Blob([bom + jsonText], {
+        type: "application/json;charset=utf-8"
+    });
+
+    const url = URL.createObjectURL(blob);
+
+    const fileName = createBackupFileName();
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    link.click();
+
+    URL.revokeObjectURL(url);
+}
 
 
+/* ==============================
+   バックアップファイル名を作る
+============================== */
 
-// ==============================
-// 初期表示
-// ==============================
+function createBackupFileName() {
+    const now = new Date();
 
-//日付初期値を入れる
-initDate();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const date = String(now.getDate()).padStart(2, "0");
 
-//localStorageに残っている一時記録を読み込む
-loadLocalTrainingRecords();
+    const hour = String(now.getHours()).padStart(2, "0");
+    const minute = String(now.getMinutes()).padStart(2, "0");
 
-//参照エリア：種目<select>初期表示
-updateReferenceExerciseSelect();
+    const dataVersion = appMeta.dataVersion || "1.1.0";
 
-//参照エリア：タイプ<select>初期表示
-updateReferenceExerciseType();
+    return `training-records-backup-v${dataVersion}-${year}-${month}-${date}-${hour}${minute}.json`;
+}
 
-//参照エリア：テンポ・メモ初期表示
-updateReferenceMemo();
 
-//参照エリア：重量<select>表示
-weightNumberSetting(referenceSet1Weight);
-weightNumberSetting(referenceSet2Weight);
-weightNumberSetting(referenceSet3Weight);
+/* ==============================
+   JSONから再インポート
+============================== */
 
-//参照エリア：回数<select>表示
-repsNumberSetting(referenceSet1Reps);
-repsNumberSetting(referenceSet2Reps);
-repsNumberSetting(referenceSet3Reps);
+async function reimportFromJson() {
+    const confirmed = confirm(
+        "現在のスマホ内データを削除し、training-records-v1.1.0.json の内容で再インポートします。\n\n実行前にバックアップJSONを保存していることを確認してください。\n\n再インポートしますか？"
+    );
 
-//localStorageに残っている一時記録をすべて表示する
-showLocalTrainingRecords();
+    if (!confirmed) {
+        return;
+    }
 
-//スマホ用：参照用JSONファイルを読み込む
-loadMobileReferenceJsonFile();
+    try {
+        const response = await fetch("training-records-v1.1.0.json");
+
+        if (!response.ok) {
+            alert("training-records.json の読み込みに失敗しました。");
+            return;
+        }
+
+        const jsonData = await response.json();
+
+        clearAppData();
+
+        const imported = importRecordsFromJson(jsonData);
+
+        if (!imported) {
+            return;
+        }
+
+        sortAppRecordsLatestFirst();
+        saveAppData();
+
+        // 再インポート後は編集状態を解除
+        isEditingRecord = false;
+        updateAddButtonState();
+
+        showSelectedDateRecords();
+        getReferenceRecordsBySelectedExercise();
+
+        alert("再インポートしました。");
+
+    } catch (error) {
+        console.error("再インポートに失敗しました。", error);
+        alert("再インポートに失敗しました。");
+    }
+}
