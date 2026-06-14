@@ -452,7 +452,11 @@ function getPastRecordDateText(record) {
         return "-";
     }
 
-    return record.date;
+    const dateParts = record.date.split("-");
+    const month = Number(dateParts[1]);
+    const day = Number(dateParts[2]);
+
+    return month + "/" + day;
 }
 
 

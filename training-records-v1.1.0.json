@@ -1,10 +1,179 @@
-{
+﻿{
   "meta": {
     "appVersion": "1.1.0",
     "dataVersion": "1.1.0",
-    "updatedAt": "2026-06-09T17:53:40+09:00"
+    "updatedAt": "2026-06-10T06:15:16.912Z",
+    "exportedAt": "2026-06-10T12:37:11.827Z"
   },
   "records": [
+    {
+      "id": "rec_20260610_006",
+      "date": "2026-06-10",
+      "part": "back",
+      "exerciseId": "ex_machine_rowing",
+      "exercise": "マシンローイング",
+      "type": "weight",
+      "unit": "kg",
+      "bodyWeight": 50,
+      "sets": [
+        {
+          "set": 1,
+          "weight": 35,
+          "reps": 12
+        },
+        {
+          "set": 2,
+          "weight": 35,
+          "reps": 12
+        },
+        {
+          "set": 3,
+          "weight": 35,
+          "reps": 15
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "rec_20260610_005",
+      "date": "2026-06-10",
+      "part": "shoulders",
+      "exerciseId": "ex_shoulder_press",
+      "exercise": "ショルダープレス",
+      "type": "weight",
+      "unit": "kg",
+      "bodyWeight": 50,
+      "sets": [
+        {
+          "set": 1,
+          "weight": 10,
+          "reps": 12
+        },
+        {
+          "set": 2,
+          "weight": 10,
+          "reps": 12
+        },
+        {
+          "set": 3,
+          "weight": 10,
+          "reps": 15
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "rec_20260610_004",
+      "date": "2026-06-10",
+      "part": "legs",
+      "exerciseId": "ex_hip_adduction",
+      "exercise": "ヒップアダクション（閉じる）",
+      "type": "weight",
+      "unit": "kg",
+      "bodyWeight": 50,
+      "sets": [
+        {
+          "set": 1,
+          "weight": 30,
+          "reps": 12
+        },
+        {
+          "set": 2,
+          "weight": 30,
+          "reps": 12
+        },
+        {
+          "set": 3,
+          "weight": 30,
+          "reps": 15
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "rec_20260610_003",
+      "date": "2026-06-10",
+      "part": "legs",
+      "exerciseId": "ex_hip_abduction",
+      "exercise": "ヒップアブダクション（開く）",
+      "type": "weight",
+      "unit": "kg",
+      "bodyWeight": 50,
+      "sets": [
+        {
+          "set": 1,
+          "weight": 30,
+          "reps": 12
+        },
+        {
+          "set": 2,
+          "weight": 30,
+          "reps": 12
+        },
+        {
+          "set": 3,
+          "weight": 30,
+          "reps": 15
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "rec_20260610_002",
+      "date": "2026-06-10",
+      "part": "chest",
+      "exerciseId": "ex_assisted_dips",
+      "exercise": "アシストディップス",
+      "type": "assisted_bodyweight",
+      "unit": "kg",
+      "bodyWeight": 50,
+      "sets": [
+        {
+          "set": 1,
+          "weight": 40,
+          "reps": 12
+        },
+        {
+          "set": 2,
+          "weight": 40,
+          "reps": 12
+        },
+        {
+          "set": 3,
+          "weight": 40,
+          "reps": 15
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "rec_20260610_001",
+      "date": "2026-06-10",
+      "part": "back",
+      "exerciseId": "ex_assisted_pull_up",
+      "exercise": "アシストプルアップ（順手）",
+      "type": "assisted_bodyweight",
+      "unit": "kg",
+      "bodyWeight": 50,
+      "sets": [
+        {
+          "set": 1,
+          "weight": 35,
+          "reps": 12
+        },
+        {
+          "set": 2,
+          "weight": 35,
+          "reps": 12
+        },
+        {
+          "set": 3,
+          "weight": 35,
+          "reps": 9
+        }
+      ],
+      "note": ""
+    },
     {
       "id": "rec_20260608_005",
       "date": "2026-06-08",

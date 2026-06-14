@@ -299,23 +299,34 @@ button:focus {
 
 .past-records-grid {
   display: grid;
-  grid-template-columns: 3rem repeat(3, 1fr);
-  gap: var(--space-xs);
+
+  /* 左の set列を少し細くし、残り3列を均等にする */
+  grid-template-columns: 2.4rem repeat(3, minmax(0, 1fr));
+
+  gap: 0.25rem;
   text-align: center;
-  align-items: center;
+  align-items: stretch;
+
+  /* grid内のはみ出し対策 */
+  min-width: 0;
 }
 
 .past-records-grid div {
+  min-width: 0;
   min-height: 2.25rem;
-  padding: 0.35rem 0.2rem;
+  padding: 0.3rem 0.15rem;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  font-size: 0.88rem;
+  font-size: 0.78rem;
   line-height: 1.2;
-  white-space: nowrap;
+
+  /* はみ出し防止 */
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 
   background: var(--sub-color);
   border: 1px solid var(--border-color);
